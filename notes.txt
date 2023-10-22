@@ -1,0 +1,10 @@
+router at 102.168.1.254
+
+remote access:
+username tech
+password familytree2023
+port 46096
+public ip: 104.62.32.231
+
+linux machine: 
+192.168.1.186
