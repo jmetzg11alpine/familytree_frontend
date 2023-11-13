@@ -1,5 +1,8 @@
 router at 102.168.1.254
 
+domain name from squarespace:
+jmetzg11@gmail.com
+
 remote access:
 username tech
 password familytree2023
@@ -8,3 +11,14 @@ public ip: 104.62.32.231
 
 linux machine: 
 192.168.1.186
+
+server {
+    listen 80;
+    server_name seemyfamily.net www.seemyfamily.net;
+
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}
