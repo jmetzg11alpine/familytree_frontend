@@ -1,0 +1,13 @@
+:root {
+    --color-one: #545454;
+    --color-two: #63adf2;
+    --color-three: #a7cced;
+    --color-four: #304d6d;
+    --color-five: #82a0bc;
+}
+
+body,
+html {
+    height: 100%;
+    margin: 0;
+}

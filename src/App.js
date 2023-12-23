@@ -1,9 +1,12 @@
-import Container from './container/Container';
+import Header from './components/Header';
+import Background from './components/Background';
+import './styles/app.css';
 
 function App() {
   return (
     <div>
-      <Container />
+      <Header />
+      <Background />
     </div>
   );
 }

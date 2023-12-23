@@ -1,0 +1,10 @@
+.background-container {
+    width: 100%;
+    display: grid;
+    overflow: hidden;
+    height: 95vh;
+}
+
+.grid-row {
+    display: flex;
+}

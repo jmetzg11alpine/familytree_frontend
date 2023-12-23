@@ -1,0 +1,17 @@
+.profile-unfocused-container {
+    border-radius: 7px;
+    border: 1px solid black;
+    user-select: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: var(--color-two);
+    cursor: pointer !important
+}
+
+.profile-unfocused-container:hover {
+    background-color: var(--color-four);
+    color: white;
+}
+

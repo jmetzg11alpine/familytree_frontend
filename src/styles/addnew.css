@@ -1,0 +1,9 @@
+.checkbox-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+
+.form-label {
+    font-weight: bold
+}
