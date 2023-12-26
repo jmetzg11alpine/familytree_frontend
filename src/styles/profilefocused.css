@@ -60,6 +60,13 @@
 }
 
 .bio-text {
-    font-size: 1.5rem;
+    font-size: 1.1rem;
+    padding: 15px 5px;
     overflow: hidden;
+    max-height: 100%;
+    overflow-y: auto;
+    border-radius: 8px;
+    border: solid 2px var(--color-three);
+    white-space: pre-wrap;
+    text-align: left;
 }

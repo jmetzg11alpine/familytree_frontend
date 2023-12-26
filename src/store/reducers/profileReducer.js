@@ -17,6 +17,7 @@ const profileSlice = createSlice({
     squareSelected: false,
     addNew: false,
     isEditing: false,
+    nameRepeatError: { status: false, name: '' },
   },
   reducers: {
     setNameKey: (state, action) => {
@@ -61,6 +62,9 @@ const profileSlice = createSlice({
     setIsEditing: (state, action) => {
       state.isEditing = action.payload;
     },
+    setNameRepeatError: (state, action) => {
+      state.nameRepeatError = action.payload;
+    },
   },
 });
 
@@ -79,6 +83,7 @@ export const {
   setSquareSelected,
   setAddNew,
   setIsEditing,
+  setNameRepeatError,
 } = profileSlice.actions;
 
 export default profileSlice.reducer;

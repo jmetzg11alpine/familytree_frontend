@@ -8,7 +8,6 @@ import '../styles/profilefocused.css';
 const ProfileFocused = () => {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.profileReducer.profileData);
-  console.log(data);
   const isEditing = useSelector((state) => state.profileReducer.isEditing);
   const handleClose = () => {
     dispatch(setShowProfile(false));
@@ -19,7 +18,7 @@ const ProfileFocused = () => {
   return (
     <Container className='profile-focused-container'>
       {isEditing ? (
-        <ProfileEdit data={data} dispatch={dispatch} />
+        <ProfileEdit id={data.id} />
       ) : (
         <>
           <div className='focused-main-body mt-2 p-3'>
@@ -42,18 +41,22 @@ const ProfileFocused = () => {
                   <></>
                 )}
                 {data.parents ? (
-                  <div className='info'>Parents: {data.parents}</div>
+                  <div className='info'>Parents: {data.parents.join(', ')}</div>
                 ) : (
                   <></>
                 )}
                 {data.siblings ? (
-                  <div className='info'>Siblings: {data.siblings}</div>
+                  <div className='info'>Siblings: {data.siblings.join(', ')}</div>
                 ) : (
                   <></>
                 )}
-                {data.spouse ? <div className='info'>Spouse: {data.spouse}</div> : <></>}
+                {data.spouse ? (
+                  <div className='info'>Spouse: {data.spouse.join(', ')}</div>
+                ) : (
+                  <></>
+                )}
                 {data.children ? (
-                  <div className='info'>Children: {data.children}</div>
+                  <div className='info'>Children: {data.children.join(', ')}</div>
                 ) : (
                   <></>
                 )}
