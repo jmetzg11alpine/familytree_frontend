@@ -1,4 +1,4 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   setNameKey,
   setCoorKey,
@@ -11,10 +11,15 @@ import {
   setSquareCoor,
   setAddNew,
   setIsEditing,
+  setShowProfile,
 } from '../store/reducers/profileReducer';
 import ProfileUnfocused from './ProfileUnfocused.js';
 import BlankSpace from './BlankSpace.js';
 import { Form, Button, Card } from 'react-bootstrap';
+const url =
+  process.env.NODE_ENV === 'development'
+    ? process.env.REACT_APP_DEV
+    : process.env.REACT_APP_PROD;
 
 export const handleScale = (value, scale, dispatch, coorRange) => {
   const newScale = value > 0 ? scale - 0.4 : scale + 0.4;
@@ -68,10 +73,6 @@ export const renderGrid = (coorRange, coorKey) => {
 };
 
 export const getData = async (dispatch) => {
-  const url =
-    process.env.NODE_ENV === 'development'
-      ? process.env.REACT_APP_DEV
-      : process.env.REACT_APP_PROD;
   try {
     const response = await fetch(`${url}get_people`, {
       method: 'GET',
@@ -89,11 +90,6 @@ export const getData = async (dispatch) => {
 };
 
 export const getProfileData = async (profileNumber, dispatch) => {
-  console.log(profileNumber);
-  const url =
-    process.env.NODE_ENV === 'development'
-      ? process.env.REACT_APP_DEV
-      : process.env.REACT_APP_PROD;
   try {
     const response = await fetch(`${url}get_person/${profileNumber}`, {
       method: 'GET',
@@ -187,10 +183,6 @@ export const RepeatedNameError = ({ name }) => {
 };
 
 export const getPotentialRelatives = async (coor, dispatch) => {
-  const url =
-    process.env.NODE_ENV === 'development'
-      ? process.env.REACT_APP_DEV
-      : process.env.REACT_APP_PROD;
   try {
     const response = await fetch(`${url}get_potential_relatives`, {
       method: 'POST',
@@ -207,10 +199,6 @@ export const getPotentialRelatives = async (coor, dispatch) => {
 };
 
 export const addNewRelative = async (formData, squareCoor, dispatch) => {
-  const url =
-    process.env.NODE_ENV === 'development'
-      ? process.env.REACT_APP_DEV
-      : process.env.REACT_APP_PROD;
   try {
     const response = await fetch(`${url}add_relative`, {
       method: 'POST',
@@ -234,10 +222,6 @@ export const addNewRelative = async (formData, squareCoor, dispatch) => {
 };
 
 export const getDataToEdit = async (id, setUpdatedData) => {
-  const url =
-    process.env.NODE_ENV === 'development'
-      ? process.env.REACT_APP_DEV
-      : process.env.REACT_APP_PROD;
   const response = await fetch(`${url}get_details_to_edit`, {
     method: 'POST',
     headers: {
@@ -251,14 +235,10 @@ export const getDataToEdit = async (id, setUpdatedData) => {
 };
 
 export const updatePerson = async (data, id, dispatch) => {
-  const url =
-    process.env.NODE_ENV === 'development'
-      ? process.env.REACT_APP_DEV
-      : process.env.REACT_APP_PROD;
   const response = await fetch(`${url}update_details`, {
     method: 'POST',
     headers: {
-      'content-Type': 'application/json',
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({ data, id }),
   });
@@ -269,4 +249,52 @@ export const updatePerson = async (data, id, dispatch) => {
   } else {
     dispatch(setNameRepeatError({ status: true, name: resp.name }));
   }
+};
+
+export const updateBio = async (bio, name) => {
+  const response = await fetch(`${url}update_bio`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ bio, name }),
+  });
+  const resp = await response.json();
+  console.log(resp);
+};
+
+const deletePerson = async (name) => {
+  const response = await fetch(`${url}delete_person`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ name }),
+  });
+  const resp = await response.json();
+  console.log(resp.message);
+};
+
+export const DeleteConfirmation = ({ name, setDeletePerson, dispatch }) => {
+  const coorKey = useSelector((state) => state.profileReducer.coorKey);
+  const coorRange = useSelector((state) => state.profileReducer.coorRange);
+  const handleCancel = () => {
+    setDeletePerson(false);
+  };
+  const handleDelete = async () => {
+    await deletePerson(name);
+    await getData(dispatch);
+    renderGrid(coorRange, coorKey);
+    setDeletePerson(false);
+    dispatch(setShowProfile(false));
+  };
+  return (
+    <div>
+      <div>Are you sure you want to remove {name} </div>
+      <Button variant='danger' onClick={handleDelete}>
+        Delete
+      </Button>
+      <Button onClick={handleCancel}>Cancel</Button>
+    </div>
+  );
 };
