@@ -1,16 +1,18 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setShowProfile, setIsEditing } from '../store/reducers/profileReducer';
+import {
+  setShowProfile,
+  setIsEditing,
+  setPhotos,
+} from '../../store/reducers/profileReducer';
 import { Container, Col, Image } from 'react-bootstrap';
-import ProfileEdit from './ProfileEdit';
 import { Button } from 'react-bootstrap';
 import { getProfileData, updateBio, DeleteConfirmation } from './helpers';
-import '../styles/profilefocused.css';
+import '../../styles/profilefocused.css';
 
 const ProfileFocused = () => {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.profileReducer.profileData);
-  const isEditing = useSelector((state) => state.profileReducer.isEditing);
   const [bioIsEditing, setBioIsEditing] = useState(false);
   const [bio, setBio] = useState('');
   const [deletePerson, setDeletePerson] = useState(false);
@@ -37,25 +39,29 @@ const ProfileFocused = () => {
   const handleBioChange = (e) => {
     setBio(e.target.value);
   };
+  const handlePhoto = () => {
+    dispatch(setPhotos(true));
+    dispatch(setShowProfile(false));
+  };
   return (
-    <Container className='profile-focused-container'>
-      {isEditing ? (
-        <ProfileEdit id={data.id} />
-      ) : deletePerson ? (
+    <>
+      {deletePerson ? (
         <DeleteConfirmation
           name={data.name}
           setDeletePerson={setDeletePerson}
           dispatch={dispatch}
         />
       ) : (
-        <>
+        <Container className='profile-focused-container'>
           <div className='focused-main-body mt-2 p-3'>
             <Col xs={4}>
               {data.profile_photo && (
                 <Image
                   src={`data:image/png;base64,${data.profile_photo}`}
+                  onDoubleClick={handlePhoto}
                   fluid
                   roundedCircle
+                  style={{ cursor: 'pointer' }}
                 />
               )}
               <div className='mt-3 mb-2'>
@@ -114,9 +120,6 @@ const ProfileFocused = () => {
             >
               Edit
             </Button>
-            <Button variant='warning' className='profile-focused-button'>
-              Move
-            </Button>
             <Button
               variant='danger'
               className='profile-focused-button'
@@ -132,9 +135,9 @@ const ProfileFocused = () => {
               Close
             </Button>
           </div>
-        </>
+        </Container>
       )}
-    </Container>
+    </>
   );
 };
 export default ProfileFocused;

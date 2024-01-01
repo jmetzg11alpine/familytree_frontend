@@ -4,7 +4,7 @@ import {
   setSquareSelected,
   setAddNew,
   setSquareCoor,
-} from '../store/reducers/profileReducer';
+} from '../../store/reducers/profileReducer';
 
 const ConfirmationModal = () => {
   const dispatch = useDispatch();

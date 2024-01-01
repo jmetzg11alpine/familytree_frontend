@@ -4,7 +4,7 @@ import {
   setAddNew,
   setSquareCoor,
   setNameRepeatError,
-} from '../store/reducers/profileReducer';
+} from '../../store/reducers/profileReducer';
 import { Modal, Button, Form } from 'react-bootstrap';
 import {
   addNewRelative,
@@ -12,7 +12,7 @@ import {
   renderFormFields,
   RepeatedNameError,
 } from './helpers';
-import '../styles/addnew.css';
+import '../../styles/addnew.css';
 
 const AddNewModal = () => {
   const dispatch = useDispatch();

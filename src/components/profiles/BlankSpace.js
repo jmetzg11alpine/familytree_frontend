@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { setSquareCoor, setSquareSelected } from '../store/reducers/profileReducer';
+import { setSquareCoor, setSquareSelected } from '../../store/reducers/profileReducer';
 
 const BlankSpace = ({ coor, isDragging }) => {
   const dispatch = useDispatch();

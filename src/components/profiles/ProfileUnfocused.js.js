@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setShowProfile } from '../store/reducers/profileReducer';
+import { setShowProfile, setPhotos } from '../../store/reducers/profileReducer';
 import { getProfileData } from './helpers';
-import '../styles/profileunfocused.css';
+import '../../styles/profileunfocused.css';
 
 const ProfileUnfocused = ({ coor, coorKey }) => {
   const dispatch = useDispatch();
@@ -22,6 +22,7 @@ const ProfileUnfocused = ({ coor, coorKey }) => {
   const handleShowProfile = () => {
     dispatch(setShowProfile(true));
     getProfileData(coorKey[coor], dispatch);
+    dispatch(setPhotos(false));
   };
   useEffect(() => {
     let name = nameKey[coorKey[coor]];

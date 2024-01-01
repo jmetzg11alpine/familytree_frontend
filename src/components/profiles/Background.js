@@ -1,11 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import '../styles/background.css';
 import { getData, scrollScreen, renderGrid } from './helpers';
-import { setIsDragging } from '../store/reducers/profileReducer';
+import { setIsDragging } from '../../store/reducers/profileReducer';
 import ProfileFocused from './ProfileFocused';
 import ConfirmationModal from './ConfirmationModal';
 import AddNewModal from './AddNewModal';
+import ProfileEdit from './ProfileEdit';
+import Photo from './Photo';
+import '../../styles/background.css';
 
 const Background = () => {
   const dispatch = useDispatch();
@@ -18,7 +20,8 @@ const Background = () => {
   const dimensions = useSelector((state) => state.profileReducer.dimensions);
   const squareSelected = useSelector((state) => state.profileReducer.squareSelected);
   const addNew = useSelector((state) => state.profileReducer.addNew);
-  const modalOpened = squareSelected || addNew || showProfile || isEditing;
+  const photos = useSelector((state) => state.profileReducer.photos);
+  const modalOpened = squareSelected || addNew || showProfile || isEditing || photos;
   const containerRef = useRef(null);
   const [grid, setGrid] = useState([]);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -68,8 +71,10 @@ const Background = () => {
     >
       {grid}
       {showProfile && <ProfileFocused />}
+      {photos && <Photo />}
       <ConfirmationModal />
       <AddNewModal />
+      <ProfileEdit />
     </div>
   );
 };

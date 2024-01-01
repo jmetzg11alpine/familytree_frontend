@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   setNameKey,
@@ -12,10 +13,10 @@ import {
   setAddNew,
   setIsEditing,
   setShowProfile,
-} from '../store/reducers/profileReducer';
-import ProfileUnfocused from './ProfileUnfocused.js';
+} from '../../store/reducers/profileReducer.js';
+import ProfileUnfocused from './ProfileUnfocused.js.js';
 import BlankSpace from './BlankSpace.js';
-import { Form, Button, Card } from 'react-bootstrap';
+import { Form, Button, Card, Image } from 'react-bootstrap';
 const url =
   process.env.NODE_ENV === 'development'
     ? process.env.REACT_APP_DEV
@@ -231,7 +232,6 @@ export const getDataToEdit = async (id, setUpdatedData) => {
   });
   const resp = await response.json();
   setUpdatedData(resp);
-  console.log(resp);
 };
 
 export const updatePerson = async (data, id, dispatch) => {
@@ -288,13 +288,181 @@ export const DeleteConfirmation = ({ name, setDeletePerson, dispatch }) => {
     setDeletePerson(false);
     dispatch(setShowProfile(false));
   };
+  const style = {
+    position: 'fixed',
+    backgroundColor: 'var(--color-five)',
+    zIndex: 2,
+    top: '10%',
+    left: '50%',
+    transform: 'translateX(-50%)',
+    textAlign: 'center',
+    boxShadow: '0 0 15px rgba(0, 0, 0, .4)',
+  };
   return (
-    <div>
-      <div>Are you sure you want to remove {name} </div>
-      <Button variant='danger' onClick={handleDelete}>
-        Delete
-      </Button>
-      <Button onClick={handleCancel}>Cancel</Button>
-    </div>
+    <Card style={style}>
+      <Card.Header>Are you sure you want to remove {name}?</Card.Header>
+      <Card.Footer className='d-flex justify-content-between'>
+        <Button variant='danger' onClick={handleDelete}>
+          Delete
+        </Button>
+        <Button onClick={handleCancel}>Cancel</Button>
+      </Card.Footer>
+    </Card>
+  );
+};
+
+export const getPhotos = async (id, setPhotoData, setPhotoPaths) => {
+  const response = await fetch(`${url}photos`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ id }),
+  });
+  const resp = await response.json();
+  setPhotoPaths(resp.paths);
+  setPhotoData(resp.data);
+};
+
+export const getPhoto = async (path, setPhotoData) => {
+  const response = await fetch(`${url}photo`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ path }),
+  });
+  const resp = await response.json();
+  setPhotoData(resp.data);
+};
+
+export const makeProfilePicture = async (person_id, path, setPhotoData, dispatch) => {
+  const response = await fetch(`${url}profile_photo`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ person_id, path }),
+  });
+  const resp = await response.json();
+  console.log(resp);
+  getPhoto(path, setPhotoData);
+  getProfileData(person_id, dispatch);
+};
+
+export const updateDescription = async (photoData, path) => {
+  const response = await fetch(`${url}update_photo_description`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ description: photoData.description, path }),
+  });
+  const resp = await response.json();
+  console.log(resp);
+};
+
+const uploadPhoto = async (photo, description, person_id, setPhotoData, setPhotoPath) => {
+  const formData = new FormData();
+  formData.append('photo', photo);
+  formData.append('description', description);
+  formData.append('person_id', person_id);
+  const response = await fetch(`${url}add_photo`, {
+    method: 'POST',
+    body: formData,
+  });
+  const resp = await response.json();
+  console.log(resp);
+  getPhotos(person_id, setPhotoData, setPhotoPath);
+};
+
+export const AddPhoto = ({ setAddPhoto, setPhotoData, setPhotoPath }) => {
+  const profileData = useSelector((state) => state.profileReducer.profileData);
+  const [photo, setPhoto] = useState(null);
+  const [description, setDescription] = useState('');
+  const handleCancel = () => {
+    setAddPhoto(false);
+  };
+  const handleSubmit = () => {
+    if (photo) {
+      uploadPhoto(photo, description, profileData.id, setPhotoData, setPhotoPath);
+      setAddPhoto(false);
+    }
+  };
+  const handleUpload = (event) => {
+    setPhoto(event.target.files[0]);
+  };
+  const handleDescription = (event) => {
+    setDescription(event.target.value);
+  };
+  return (
+    <>
+      <Card.Header>Add a photo for {profileData.name}</Card.Header>
+      <Card.Body>
+        <Form.Group>
+          <Form.Label>Upload Photo</Form.Label>
+          <Form.Control type='file' onChange={handleUpload} />
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Add Description</Form.Label>
+          <Form.Control
+            as='textarea'
+            rows={2}
+            value={description}
+            onChange={handleDescription}
+          />
+        </Form.Group>
+      </Card.Body>
+      <Card.Footer>
+        <Button variant='success' onClick={handleSubmit}>
+          Submit
+        </Button>
+        <Button onClick={handleCancel}>Cancel</Button>
+      </Card.Footer>
+    </>
+  );
+};
+
+const deletePhoto = async (person_id, setPhotoData, setPhotoPath, path) => {
+  const response = await fetch(`${url}delete_photo`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ path }),
+  });
+  const resp = await response.json();
+  console.log(resp);
+  getPhotos(person_id, setPhotoData, setPhotoPath);
+};
+
+export const DeletePhoto = ({
+  setDeletePhoto,
+  photoData,
+  path,
+  setPhotoData,
+  setPhotoPath,
+}) => {
+  const profileData = useSelector((state) => state.profileReducer.profileData);
+  const handleCancel = () => {
+    setDeletePhoto(false);
+  };
+  const handleDelete = () => {
+    deletePhoto(profileData.id, setPhotoData, setPhotoPath, path);
+    setDeletePhoto(false);
+  };
+  return (
+    <>
+      <Card.Header>Are you sure you want to delete this photo?</Card.Header>
+      <Card.Body>
+        <Image src={`data:image/png;base64,${photoData.current}`} />
+      </Card.Body>
+      <Card.Footer>
+        <Button variant='danger' onClick={handleDelete}>
+          Delete
+        </Button>
+        <Button onClick={handleCancel}>Cancel</Button>
+      </Card.Footer>
+    </>
   );
 };

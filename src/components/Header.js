@@ -1,6 +1,6 @@
 import '../styles/header.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { handleScale } from './helpers';
+import { handleScale } from './profiles/helpers';
 
 const Header = () => {
   const dispatch = useDispatch();

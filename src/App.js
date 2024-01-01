@@ -1,5 +1,5 @@
 import Header from './components/Header';
-import Background from './components/Background';
+import Background from './components/profiles/Background';
 import './styles/app.css';
 
 function App() {
