@@ -74,6 +74,13 @@ const ProfileFocused = () => {
                 ) : (
                   <></>
                 )}
+                {data.lat && data.lng ? (
+                  <div className='info'>
+                    Latitude: {data.lat}, Longitude: {data.lng}
+                  </div>
+                ) : (
+                  <></>
+                )}
                 {data.parents ? (
                   <div className='info'>Parents: {data.parents.join(', ')}</div>
                 ) : (

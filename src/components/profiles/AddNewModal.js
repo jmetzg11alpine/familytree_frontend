@@ -34,6 +34,8 @@ const AddNewModal = () => {
         fields: [
           { label: 'Name', type: 'text', value: '', multiple: false },
           { label: 'Location', type: 'text', value: '', multiple: false },
+          { label: 'Latitude', type: 'text', value: '', multiple: false },
+          { label: 'Longitude', type: 'text', value: '', multiple: false },
           {
             label: 'Parents',
             options: data.parents.map((d) => d.name),

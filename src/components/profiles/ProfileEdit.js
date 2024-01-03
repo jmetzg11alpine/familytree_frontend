@@ -10,15 +10,15 @@ import {
   RepeatedNameError,
 } from './helpers';
 
-const ProfileEdit = ({ id }) => {
+const ProfileEdit = () => {
   const dispatch = useDispatch();
   const nameRepeatError = useSelector((state) => state.profileReducer.nameRepeatError);
   const isEditing = useSelector((state) => state.profileReducer.isEditing);
   const profileData = useSelector((state) => state.profileReducer.profileData);
   const [updatedData, setUpdatedData] = useState({});
   const handleSave = () => {
-    updatePerson(updatedData, id, dispatch);
-    getProfileData(id, dispatch);
+    updatePerson(updatedData, profileData.id, dispatch);
+    getProfileData(profileData.id, dispatch);
   };
   const handleCancel = () => {
     dispatch(setIsEditing(false));
