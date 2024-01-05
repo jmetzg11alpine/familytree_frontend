@@ -13,6 +13,7 @@ import '../../styles/profilefocused.css';
 const ProfileFocused = () => {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.profileReducer.profileData);
+  const currentUser = useSelector((state) => state.profileReducer.currentUser);
   const [bioIsEditing, setBioIsEditing] = useState(false);
   const [bio, setBio] = useState('');
   const [deletePerson, setDeletePerson] = useState(false);
@@ -29,11 +30,13 @@ const ProfileFocused = () => {
     setDeletePerson(true);
   };
   const handleBioEdit = () => {
-    setBioIsEditing(true);
+    if (currentUser) {
+      setBioIsEditing(true);
+    }
   };
   const handleBioBlur = () => {
     setBioIsEditing(false);
-    updateBio(bio, data.name);
+    updateBio(bio, data.name, currentUser);
     getProfileData(data.id, dispatch);
   };
   const handleBioChange = (e) => {
@@ -120,20 +123,25 @@ const ProfileFocused = () => {
             </Col>
           </div>
           <div className='focused-footer'>
-            <Button
-              variant='secondary'
-              className='profile-focused-button'
-              onClick={handleEdit}
-            >
-              Edit
-            </Button>
-            <Button
-              variant='danger'
-              className='profile-focused-button'
-              onClick={handleDelete}
-            >
-              Delete
-            </Button>
+            {currentUser && (
+              <>
+                <Button
+                  variant='secondary'
+                  className='profile-focused-button'
+                  onClick={handleEdit}
+                >
+                  Edit
+                </Button>
+                <Button
+                  variant='danger'
+                  className='profile-focused-button'
+                  onClick={handleDelete}
+                >
+                  Delete
+                </Button>
+              </>
+            )}
+
             <Button
               variant='primary'
               className='profile-focused-button'

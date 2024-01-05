@@ -12,13 +12,22 @@ import {
 
 const ProfileEdit = () => {
   const dispatch = useDispatch();
+  const currentUser = useSelector((state) => state.profileReducer.currentUser);
   const nameRepeatError = useSelector((state) => state.profileReducer.nameRepeatError);
   const isEditing = useSelector((state) => state.profileReducer.isEditing);
   const profileData = useSelector((state) => state.profileReducer.profileData);
   const [updatedData, setUpdatedData] = useState({});
-  const handleSave = () => {
-    updatePerson(updatedData, profileData.id, dispatch);
-    getProfileData(profileData.id, dispatch);
+  const [changesMade, setChangesMade] = useState(false);
+  const handleSave = async () => {
+    const results = await updatePerson(
+      updatedData,
+      profileData.id,
+      currentUser,
+      dispatch
+    );
+    if (results === 'success') {
+      getProfileData(profileData.id, dispatch);
+    }
   };
   const handleCancel = () => {
     dispatch(setIsEditing(false));
@@ -38,13 +47,16 @@ const ProfileEdit = () => {
           </Modal.Header>
           <Modal.Body>
             <Form>
-              {updatedData.fields && renderFormFields(updatedData, setUpdatedData)}
+              {updatedData.fields &&
+                renderFormFields(updatedData, setUpdatedData, setChangesMade)}
             </Form>
           </Modal.Body>
           <Modal.Footer className='d-flex justify-content-between'>
-            <Button variant='success' onClick={handleSave}>
-              Save
-            </Button>
+            {changesMade && (
+              <Button variant='success' onClick={handleSave}>
+                Save
+              </Button>
+            )}
             <Button onClick={handleCancel}>Cancel</Button>
           </Modal.Footer>
         </>

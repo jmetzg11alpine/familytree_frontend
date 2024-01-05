@@ -20,7 +20,9 @@ const AddNewModal = () => {
   const addNew = useSelector((state) => state.profileReducer.addNew);
   const squareCoor = useSelector((state) => state.profileReducer.squareCoor);
   const nameRepeatError = useSelector((state) => state.profileReducer.nameRepeatError);
+  const currentUser = useSelector((state) => state.profileReducer.currentUser);
   const [formData, setFormData] = useState({ fields: [] });
+  const [changesMade, setChangesMade] = useState(false);
 
   useEffect(() => {
     if (squareCoor) {
@@ -67,7 +69,7 @@ const AddNewModal = () => {
   }, [data, squareCoor]);
 
   const handleSave = () => {
-    addNewRelative(formData, squareCoor, dispatch);
+    addNewRelative(formData, squareCoor, currentUser, dispatch);
   };
   const handleCancel = () => {
     dispatch(setAddNew(false));
@@ -85,12 +87,14 @@ const AddNewModal = () => {
             <Modal.Title>Add New Relative</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Form>{renderFormFields(formData, setFormData)}</Form>
+            <Form>{renderFormFields(formData, setFormData, setChangesMade)}</Form>
           </Modal.Body>
           <Modal.Footer className='d-flex justify-content-between'>
-            <Button variant='success' onClick={handleSave}>
-              Save
-            </Button>
+            {changesMade && (
+              <Button variant='success' onClick={handleSave}>
+                Save
+              </Button>
+            )}
             <Button variant='warning' onClick={handleCancel}>
               Cancel
             </Button>

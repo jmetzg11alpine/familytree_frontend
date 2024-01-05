@@ -5,6 +5,8 @@ const BlankSpace = ({ coor, isDragging }) => {
   const dispatch = useDispatch();
   const squareCoor = useSelector((state) => state.profileReducer.squareCoor);
   const scale = useSelector((state) => state.profileReducer.scale);
+  const currentUser = useSelector((state) => state.profileReducer.currentUser);
+
   const style = {
     width: 60 * scale - 2 + 'px',
     height: 60 * scale - 2 + 'px',
@@ -15,8 +17,10 @@ const BlankSpace = ({ coor, isDragging }) => {
   };
 
   const handleDoubleClick = () => {
-    dispatch(setSquareCoor(coor));
-    dispatch(setSquareSelected(true));
+    if (currentUser) {
+      dispatch(setSquareCoor(coor));
+      dispatch(setSquareSelected(true));
+    }
   };
   return (
     <>

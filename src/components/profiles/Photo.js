@@ -15,6 +15,7 @@ import '../../styles/photo.css';
 
 const Photo = () => {
   const dispatch = useDispatch();
+  const currentUser = useSelector((state) => state.profileReducer.currentUser);
   const photos = useSelector((state) => state.profileReducer.photos);
   const profileData = useSelector((state) => state.profileReducer.profileData);
   const [photoData, setPhotoData] = useState({ current: '', description: '' });
@@ -45,17 +46,25 @@ const Photo = () => {
   const handleCheckboxChange = (event) => {
     const isChecked = event.target.checked;
     if (isChecked) {
-      makeProfilePicture(profileData.id, photoPath[currentSlide], setPhotoData, dispatch);
+      makeProfilePicture(
+        profileData.id,
+        photoPath[currentSlide],
+        setPhotoData,
+        currentUser,
+        dispatch
+      );
     }
   };
   const handleDescription = () => {
-    setDescriptionEditing(true);
+    if (currentUser) {
+      setDescriptionEditing(true);
+    }
   };
   const handleDescriptionChange = (event) => {
     setPhotoData({ ...photoData, description: event.target.value });
   };
   const handleUpdateDescription = () => {
-    updateDescription(photoData, photoPath[currentSlide]);
+    updateDescription(photoData, photoPath[currentSlide], profileData.name, currentUser);
     setDescriptionEditing(false);
   };
   const handleAdd = () => {
@@ -114,21 +123,25 @@ const Photo = () => {
             </Card.Body>
           )}
           <Card.Footer>
-            {photoPath.length > 0 && (
-              <Form.Check
-                type='checkbox'
-                label='Profile Photo'
-                checked={photoData.profile_photo}
-                onChange={handleCheckboxChange}
-              />
-            )}
-            <Button variant='success' onClick={handleAdd}>
-              Add Photo
-            </Button>
-            {photoPath.length > 0 && (
-              <Button variant='danger' onClick={handleDelete}>
-                Delete
-              </Button>
+            {currentUser && (
+              <>
+                {photoPath.length > 0 && (
+                  <Form.Check
+                    type='checkbox'
+                    label='Profile Photo'
+                    checked={photoData.profile_photo}
+                    onChange={handleCheckboxChange}
+                  />
+                )}
+                <Button variant='success' onClick={handleAdd}>
+                  Add Photo
+                </Button>
+                {photoPath.length > 0 && (
+                  <Button variant='danger' onClick={handleDelete}>
+                    Delete
+                  </Button>
+                )}
+              </>
             )}
             <Button onClick={handleClose}>Close</Button>
           </Card.Footer>

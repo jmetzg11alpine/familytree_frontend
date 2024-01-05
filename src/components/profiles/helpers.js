@@ -105,7 +105,8 @@ export const getProfileData = async (profileNumber, dispatch) => {
   }
 };
 
-const handleFormChange = (e, index, multiple, setData) => {
+const handleFormChange = (e, index, multiple, setData, setChangesMade) => {
+  setChangesMade(true);
   const { value, checked } = e.target;
   setData((prevData) => {
     const newFields = [...prevData.fields];
@@ -129,7 +130,7 @@ const handleFormChange = (e, index, multiple, setData) => {
   });
 };
 
-export const renderFormFields = (data, setData) => {
+export const renderFormFields = (data, setData, setChangesMade) => {
   return data.fields.map((field, index) => {
     if (field.options && field.options.length === 0) {
       return null;
@@ -146,7 +147,9 @@ export const renderFormFields = (data, setData) => {
                 name={field.label}
                 value={option}
                 checked={field.value.includes(option)}
-                onChange={(e) => handleFormChange(e, index, true, setData)}
+                onChange={(e) =>
+                  handleFormChange(e, index, true, setData, setChangesMade)
+                }
                 key={optionIndex}
               />
             ))}
@@ -157,7 +160,7 @@ export const renderFormFields = (data, setData) => {
             placeholder={`Enter ${field.label}`}
             name={field.label}
             value={field.value}
-            onChange={(e) => handleFormChange(e, index, false, setData)}
+            onChange={(e) => handleFormChange(e, index, false, setData, setChangesMade)}
           />
         )}
       </Form.Group>
@@ -199,14 +202,14 @@ export const getPotentialRelatives = async (coor, dispatch) => {
   }
 };
 
-export const addNewRelative = async (formData, squareCoor, dispatch) => {
+export const addNewRelative = async (formData, squareCoor, currentUser, dispatch) => {
   try {
     const response = await fetch(`${url}add_relative`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ formData, squareCoor }),
+      body: JSON.stringify({ formData, squareCoor, currentUser }),
     });
     const resp = await response.json();
     if (resp.message === 'success') {
@@ -234,55 +237,62 @@ export const getDataToEdit = async (id, setUpdatedData) => {
   setUpdatedData(resp);
 };
 
-export const updatePerson = async (data, id, dispatch) => {
+export const updatePerson = async (data, id, currentUser, dispatch) => {
   const response = await fetch(`${url}update_details`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ data, id }),
+    body: JSON.stringify({ data, id, currentUser }),
   });
   const resp = await response.json();
-  if (resp.message === 'success') {
-    dispatch(setNameRepeatError({ status: false, name: '' }));
-    dispatch(setIsEditing(false));
-  } else {
-    dispatch(setNameRepeatError({ status: true, name: resp.name }));
+  try {
+    if (resp.message === 'success') {
+      dispatch(setNameRepeatError({ status: false, name: '' }));
+      dispatch(setIsEditing(false));
+      return 'success';
+    } else {
+      dispatch(setNameRepeatError({ status: true, name: resp.name }));
+      return 'failure';
+    }
+  } catch {
+    return 'failure';
   }
 };
 
-export const updateBio = async (bio, name) => {
+export const updateBio = async (bio, name, currentUser) => {
   const response = await fetch(`${url}update_bio`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ bio, name }),
+    body: JSON.stringify({ bio, name, currentUser }),
   });
   const resp = await response.json();
   console.log(resp);
 };
 
-const deletePerson = async (name) => {
+const deletePerson = async (name, currentUser) => {
   const response = await fetch(`${url}delete_person`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ name }),
+    body: JSON.stringify({ name, currentUser }),
   });
   const resp = await response.json();
   console.log(resp.message);
 };
 
 export const DeleteConfirmation = ({ name, setDeletePerson, dispatch }) => {
+  const currentUser = useSelector((state) => state.profileReducer.currentUser);
   const coorKey = useSelector((state) => state.profileReducer.coorKey);
   const coorRange = useSelector((state) => state.profileReducer.coorRange);
   const handleCancel = () => {
     setDeletePerson(false);
   };
   const handleDelete = async () => {
-    await deletePerson(name);
+    await deletePerson(name, currentUser);
     await getData(dispatch);
     renderGrid(coorRange, coorKey);
     setDeletePerson(false);
@@ -336,13 +346,19 @@ export const getPhoto = async (path, setPhotoData) => {
   setPhotoData(resp.data);
 };
 
-export const makeProfilePicture = async (person_id, path, setPhotoData, dispatch) => {
+export const makeProfilePicture = async (
+  person_id,
+  path,
+  setPhotoData,
+  currentUser,
+  dispatch
+) => {
   const response = await fetch(`${url}profile_photo`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ person_id, path }),
+    body: JSON.stringify({ person_id, path, currentUser }),
   });
   const resp = await response.json();
   console.log(resp);
@@ -350,23 +366,36 @@ export const makeProfilePicture = async (person_id, path, setPhotoData, dispatch
   getProfileData(person_id, dispatch);
 };
 
-export const updateDescription = async (photoData, path) => {
+export const updateDescription = async (photoData, path, person_name, currentUser) => {
   const response = await fetch(`${url}update_photo_description`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ description: photoData.description, path }),
+    body: JSON.stringify({
+      description: photoData.description,
+      path,
+      person_name,
+      currentUser,
+    }),
   });
   const resp = await response.json();
   console.log(resp);
 };
 
-const uploadPhoto = async (photo, description, person_id, setPhotoData, setPhotoPath) => {
+const uploadPhoto = async (
+  photo,
+  description,
+  person_id,
+  setPhotoData,
+  setPhotoPath,
+  currentUser
+) => {
   const formData = new FormData();
   formData.append('photo', photo);
   formData.append('description', description);
   formData.append('person_id', person_id);
+  formData.append('current_user', currentUser);
   const response = await fetch(`${url}add_photo`, {
     method: 'POST',
     body: formData,
@@ -377,6 +406,7 @@ const uploadPhoto = async (photo, description, person_id, setPhotoData, setPhoto
 };
 
 export const AddPhoto = ({ setAddPhoto, setPhotoData, setPhotoPath }) => {
+  const currentUser = useSelector((state) => state.profileReducer.currentUser);
   const profileData = useSelector((state) => state.profileReducer.profileData);
   const [photo, setPhoto] = useState(null);
   const [description, setDescription] = useState('');
@@ -385,7 +415,14 @@ export const AddPhoto = ({ setAddPhoto, setPhotoData, setPhotoPath }) => {
   };
   const handleSubmit = () => {
     if (photo) {
-      uploadPhoto(photo, description, profileData.id, setPhotoData, setPhotoPath);
+      uploadPhoto(
+        photo,
+        description,
+        profileData.id,
+        setPhotoData,
+        setPhotoPath,
+        currentUser
+      );
       setAddPhoto(false);
     }
   };
@@ -423,13 +460,13 @@ export const AddPhoto = ({ setAddPhoto, setPhotoData, setPhotoPath }) => {
   );
 };
 
-const deletePhoto = async (person_id, setPhotoData, setPhotoPath, path) => {
+const deletePhoto = async (person_id, setPhotoData, setPhotoPath, path, currentUser) => {
   const response = await fetch(`${url}delete_photo`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ path }),
+    body: JSON.stringify({ path, person_id, currentUser }),
   });
   const resp = await response.json();
   console.log(resp);
@@ -443,12 +480,13 @@ export const DeletePhoto = ({
   setPhotoData,
   setPhotoPath,
 }) => {
+  const currentUser = useSelector((state) => state.profileReducer.currentUser);
   const profileData = useSelector((state) => state.profileReducer.profileData);
   const handleCancel = () => {
     setDeletePhoto(false);
   };
   const handleDelete = () => {
-    deletePhoto(profileData.id, setPhotoData, setPhotoPath, path);
+    deletePhoto(profileData.id, setPhotoData, setPhotoPath, path, currentUser);
     setDeletePhoto(false);
   };
   return (
