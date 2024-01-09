@@ -70,7 +70,7 @@ const ProfileFocused = () => {
               <div className='mt-3 mb-2'>
                 <h3>{data.name}</h3>
               </div>
-              <div className='info-container'>
+              <div className='profile-info-container'>
                 {data.birth ? <div className='info'>Birth: {data.birth}</div> : <></>}
                 {data.location ? (
                   <div className='info'>Location: {data.location}</div>

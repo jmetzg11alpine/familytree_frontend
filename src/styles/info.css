@@ -1,0 +1,20 @@
+.info-container {
+    display: flex;
+    flex-wrap: wrap;
+    overflow-x: auto;
+}
+
+.info-item {
+    flex: 0 0 100%;
+    min-height: 400px;
+}
+
+@media (min-width: 800px) {
+    .info-container {
+        flex-direction: row
+    }
+    .info-item {
+        flex: 0 0 50%;
+        height: 47.5vh
+    }
+}

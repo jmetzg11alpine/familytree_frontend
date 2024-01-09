@@ -20,6 +20,7 @@ const profileSlice = createSlice({
     nameRepeatError: { status: false, name: '' },
     photos: false,
     currentUser: '',
+    nameWasEdited: 0,
   },
   reducers: {
     setNameKey: (state, action) => {
@@ -73,6 +74,9 @@ const profileSlice = createSlice({
     setCurrentUser: (state, action) => {
       state.currentUser = action.payload;
     },
+    setNameWasEdited: (state, action) => {
+      state.nameWasEdited = action.payload;
+    },
   },
 });
 
@@ -94,6 +98,7 @@ export const {
   setNameRepeatError,
   setPhotos,
   setCurrentUser,
+  setNameWasEdited,
 } = profileSlice.actions;
 
 export default profileSlice.reducer;

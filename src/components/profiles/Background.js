@@ -25,13 +25,14 @@ const Background = () => {
   const containerRef = useRef(null);
   const [grid, setGrid] = useState([]);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const nameWasEdited = useSelector((state) => state.profileReducer.nameWasEdited);
   useEffect(() => {
     scrollScreen(dimensions, containerRef);
   }, [dimensions]);
 
   useEffect(() => {
     getData(dispatch);
-  }, [dispatch]);
+  }, [dispatch, nameWasEdited]);
 
   useEffect(() => {
     setGrid(renderGrid(coorRange, coorKey));

@@ -17,15 +17,17 @@
     display: flex;
 }
 
-.info-container {
+.profile-info-container {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
 }
 
-.info-container .info {
-    flex-wrap: wrap;
+.profile-info-container .info {
+    text-align: left;
     margin-bottom: 10px;
 }
+
 .focused-footer {
     height: 8%;
     margin-bottom: 10px;

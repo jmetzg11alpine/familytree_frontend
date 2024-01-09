@@ -15,3 +15,9 @@
     color: white;
 }
 
+.profile-unfocused-name {
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
+    text-align: center;
+}

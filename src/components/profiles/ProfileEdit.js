@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setIsEditing } from '../../store/reducers/profileReducer';
+import { setIsEditing, setNameWasEdited } from '../../store/reducers/profileReducer';
 import { Button, Form, Modal } from 'react-bootstrap';
 import {
   getDataToEdit,
@@ -16,8 +16,10 @@ const ProfileEdit = () => {
   const nameRepeatError = useSelector((state) => state.profileReducer.nameRepeatError);
   const isEditing = useSelector((state) => state.profileReducer.isEditing);
   const profileData = useSelector((state) => state.profileReducer.profileData);
+  const nameWasEdited = useSelector((state) => state.profileReducer.nameWasEdited);
   const [updatedData, setUpdatedData] = useState({});
   const [changesMade, setChangesMade] = useState(false);
+  const [originalName, setOriginalName] = useState('');
   const handleSave = async () => {
     const results = await updatePerson(
       updatedData,
@@ -28,14 +30,17 @@ const ProfileEdit = () => {
     if (results === 'success') {
       getProfileData(profileData.id, dispatch);
     }
+    if (originalName !== updatedData.fields[0].value) {
+      dispatch(setNameWasEdited(nameWasEdited + 1));
+    }
   };
   const handleCancel = () => {
     dispatch(setIsEditing(false));
   };
-
   useEffect(() => {
-    getDataToEdit(profileData.id, setUpdatedData);
+    getDataToEdit(profileData.id, setUpdatedData, setOriginalName);
   }, [profileData.id]);
+
   return (
     <Modal show={isEditing}>
       {nameRepeatError.status ? (

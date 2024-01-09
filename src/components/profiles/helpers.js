@@ -225,7 +225,7 @@ export const addNewRelative = async (formData, squareCoor, currentUser, dispatch
   }
 };
 
-export const getDataToEdit = async (id, setUpdatedData) => {
+export const getDataToEdit = async (id, setUpdatedData, setOriginalName) => {
   const response = await fetch(`${url}get_details_to_edit`, {
     method: 'POST',
     headers: {
@@ -234,6 +234,9 @@ export const getDataToEdit = async (id, setUpdatedData) => {
     body: JSON.stringify({ id }),
   });
   const resp = await response.json();
+  if (resp.fields) {
+    setOriginalName(resp.fields[0].value);
+  }
   setUpdatedData(resp);
 };
 
