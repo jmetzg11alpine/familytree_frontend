@@ -11,10 +11,7 @@ const LoginModal = ({ modalOpen, setModalOpen, dispatch }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const handleSubmit = async () => {
-    const url =
-      process.env.NODE_ENV === 'development'
-        ? process.env.REACT_APP_DEV
-        : process.env.REACT_APP_PROD;
+    const url = process.env.REACT_APP_URL;
     const response = await fetch(`${url}login`, {
       method: 'POST',
       headers: {
@@ -93,7 +90,7 @@ const Header = () => {
   };
   return (
     <>
-      <div className='header'>
+      <div className='header pb-4'>
         {location.pathname === '/' && (
           <>
             <div onClick={makeBigger}>+</div>
@@ -101,12 +98,10 @@ const Header = () => {
           </>
         )}
 
-        <div className='link-container'>
-          <Link to='/'>Home</Link>
-          <Link to='/map'>Map</Link>
-          <Link to='/info'>Info</Link>
-          <Link onClick={handleLogin}>{currentUser ? 'Logout' : 'Login'}</Link>
-        </div>
+        <Link to='/'>Home</Link>
+        <Link to='/map'>Map</Link>
+        <Link to='/info'>Info</Link>
+        <Link onClick={handleLogin}>{currentUser ? 'Logout' : 'Login'}</Link>
       </div>
       <LoginModal modalOpen={modalOpen} setModalOpen={setModalOpen} dispatch={dispatch} />
     </>

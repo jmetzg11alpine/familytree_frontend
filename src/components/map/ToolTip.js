@@ -16,13 +16,15 @@ const calculatePosition = (screenPoint, setTop, setLeft) => {
   }
 };
 
-const ToolTip = ({ showToolTip, screenPoint, content }) => {
+const ToolTip = ({ screenPoint, content }) => {
+  console.log(screenPoint);
+  console.log(content);
   const [top, setTop] = useState(40);
   const [left, setLeft] = useState(40);
   const style = {
-    zIndex: 100,
+    zIndex: 1000,
     position: 'absolute',
-    display: showToolTip ? 'block' : 'none',
+    display: 'block',
     padding: '0.5rem .8rem',
     top: top,
     left: left,
@@ -42,15 +44,11 @@ const ToolTip = ({ showToolTip, screenPoint, content }) => {
     }
   }, [screenPoint]);
   return (
-    <>
-      {showToolTip && (
-        <div style={style}>
-          <div>{content.location}</div>
-          <hr style={separatorStyle} />
-          <div>{content.name}</div>
-        </div>
-      )}
-    </>
+    <div style={style}>
+      <div>{content.location}</div>
+      <hr style={separatorStyle} />
+      <div>{content.name}</div>
+    </div>
   );
 };
 export default ToolTip;

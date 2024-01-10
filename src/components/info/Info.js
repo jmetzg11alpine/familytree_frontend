@@ -6,10 +6,7 @@ import DisplayInfo from './DisplayInfo';
 import '../../styles/info.css';
 
 const getData = async (setEdits, setTable) => {
-  const url =
-    process.env.NODE_ENV === 'development'
-      ? process.env.REACT_APP_DEV
-      : process.env.REACT_APP_PROD;
+  const url = process.env.REACT_APP_URL;
   const response = await fetch(`${url}get_info`, {
     method: 'GET',
     headers: {

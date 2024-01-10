@@ -17,10 +17,8 @@ import {
 import ProfileUnfocused from './ProfileUnfocused.js.js';
 import BlankSpace from './BlankSpace.js';
 import { Form, Button, Card, Image } from 'react-bootstrap';
-const url =
-  process.env.NODE_ENV === 'development'
-    ? process.env.REACT_APP_DEV
-    : process.env.REACT_APP_PROD;
+const url = process.env.REACT_APP_URL;
+console.log(url);
 
 export const handleScale = (value, scale, dispatch, coorRange) => {
   const newScale = value > 0 ? scale - 0.4 : scale + 0.4;

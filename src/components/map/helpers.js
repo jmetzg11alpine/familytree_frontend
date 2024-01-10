@@ -1,61 +1,66 @@
-import Map from '@arcgis/core/Map';
-import MapView from '@arcgis/core/views/MapView';
-import Graphic from '@arcgis/core/Graphic';
-import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer';
+import React from 'react';
+import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 
-export const makeMap = (ref, setContent, setScreenPoint, setShowToolTip, data) => {
-  const map = new Map({
-    basemap: 'osm',
-  });
-  const view = new MapView({
-    container: ref.current,
-    map: map,
-    center: [-35, 30],
-    zoom: 3,
-  });
-  const graphicsLayer = new GraphicsLayer();
-  map.add(graphicsLayer);
-  data.forEach((item) => {
-    const point = {
-      type: 'point',
-      longitude: item.coor.lng,
-      latitude: item.coor.lat,
-    };
-    const simpleMarkerSymbol = {
-      type: 'simple-marker',
-      color: [48, 77, 109, 0.4],
-      outline: {
-        color: [48, 77, 109],
-        width: 1,
+export const CustomMap = ({ data, setContent, setScreenPoint, setShowToolTip }) => {
+  const createCustomIcon = (item) => {
+    return L.divIcon({
+      className: 'custom-dot-marker',
+      html: `<div style="background-color: rgba(48, 77, 109, 0.4); border: 1px solid rgb(48, 77, 109); width: ${
+        item.size * 6
+      }px; height: ${item.size * 6}px; border-radius: 50%;"></div>`,
+      iconSize: [item.size * 6, item.size * 6],
+      iconAnchor: [(item.size * 6) / 2, (item.size * 6) / 2],
+    });
+  };
+
+  const MapEvents = () => {
+    useMapEvents({
+      mousemove(e) {
+        setScreenPoint(e.containerPoint);
       },
-      size: item.size * 6,
-    };
-    const pointGraphic = new Graphic({
-      geometry: point,
-      symbol: simpleMarkerSymbol,
-      attributes: { name: item.name, location: item.location },
-    });
-    graphicsLayer.add(pointGraphic);
-  });
-  view.on('pointer-move', (event) => {
-    view.hitTest(event).then((response) => {
-      if (response.results.length) {
-        setContent(response.results[0].graphic.attributes);
-        setScreenPoint(response.screenPoint);
-        setShowToolTip(true);
-      } else {
+      mouseout() {
         setShowToolTip(false);
-      }
+      },
     });
-  });
-  return view;
+    return null;
+  };
+
+  return (
+    <MapContainer center={[35, -50]} zoom={3} style={{ height: '95vh', width: '100%' }}>
+      <TileLayer
+        url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      />
+      {data &&
+        data.map((item, index) => (
+          <Marker
+            key={index}
+            position={[item.coor.lat, item.coor.lng]}
+            icon={createCustomIcon(item)}
+            eventHandlers={{
+              mouseover: (e) => {
+                setContent({ name: item.name, location: item.location });
+                const containerPoint = e.target._map.mouseEventToContainerPoint(
+                  e.originalEvent
+                );
+                setScreenPoint(containerPoint);
+                setShowToolTip(true);
+              },
+              mouseout: () => {
+                setShowToolTip(false);
+              },
+            }}
+          />
+        ))}
+      <MapEvents />
+    </MapContainer>
+  );
 };
 
 export const getData = async (setData) => {
-  const url =
-    process.env.NODE_ENV === 'development'
-      ? process.env.REACT_APP_DEV
-      : process.env.REACT_APP_PROD;
+  const url = process.env.REACT_APP_URL;
   const response = await fetch(`${url}get_coor`, {
     method: 'GET',
     headers: {

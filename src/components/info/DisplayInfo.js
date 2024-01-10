@@ -22,7 +22,7 @@ const DisplayInfo = ({ size }) => {
     <div style={containerStyle}>
       <div style={titleStyle}>See My Family</div>
       <ul style={listStyle}>
-        <li>Only user with credentials can make changes</li>
+        <li>Only user with credentials can make changes and they must login</li>
         <li>To add a new person double click in a blank space</li>
         <li>To open the photo features double click on the profile photo</li>
         <li>

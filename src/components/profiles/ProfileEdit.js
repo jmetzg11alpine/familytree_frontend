@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setIsEditing, setNameWasEdited } from '../../store/reducers/profileReducer';
 import { Button, Form, Modal } from 'react-bootstrap';

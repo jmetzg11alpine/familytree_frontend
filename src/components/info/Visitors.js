@@ -1,12 +1,21 @@
 import { useRef, useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
-import * as d3 from 'd3';
+import {
+  select,
+  scaleBand,
+  axisBottom,
+  max,
+  min,
+  range,
+  scaleLinear,
+  axisLeft,
+  line,
+  curveBasis,
+  format,
+} from 'd3';
 
 const getData = async (setData, timeRange) => {
-  const url =
-    process.env.NODE_ENV === 'development'
-      ? process.env.REACT_APP_DEV
-      : process.env.REACT_APP_PROD;
+  const url = process.env.REACT_APP_URL;
   const response = await fetch(`${url}get_visitors`, {
     method: 'POST',
     headers: {
@@ -36,7 +45,6 @@ const Visitors = ({ size }) => {
     getData(setData, timeRange);
   }, [timeRange]);
 
-  console.log(data);
   const graphHeight = size.height * 0.92;
   const titleHeight = size.height * 0.08;
   const margin = {
@@ -47,61 +55,54 @@ const Visitors = ({ size }) => {
   };
   useEffect(() => {
     if (data && d3Container.current) {
-      const svg = d3.select(d3Container.current);
+      const svg = select(d3Container.current);
       svg.selectAll('*').remove();
       svg.attr('width', size.width).attr('height', graphHeight);
-      const xAxis = d3
-        .scaleBand()
+      const xAxis = scaleBand()
         .range([margin.left, size.width - margin.right])
         .domain(data.map((d) => d.date));
       svg
         .append('g')
         .attr('transform', `translate(0, ${graphHeight - margin.bottom})`)
-        .call(d3.axisBottom(xAxis).tickSize(0))
+        .call(axisBottom(xAxis).tickSize(0))
         .selectAll('text')
         .attr('transform', `translate(-10, 0)rotate(-45)`)
         .style('text-anchor', 'end');
-      const maxCount = d3.max(data, (d) => d.count) + 2;
-      const minCount = d3.min(data, (d) => d.count - 2, 0);
+      const maxCount = max(data, (d) => d.count) + 2;
+      const minCount = min(data, (d) => d.count - 2, 0);
       const calculateTickInterval = (maxCount) => {
         if (maxCount - minCount <= 15) return 1;
         if (maxCount - minCount <= 25) return 5;
         return 10;
       };
       const tickInterval = calculateTickInterval(maxCount);
-      const tickValues = d3.range(minCount, maxCount + 1, tickInterval);
-      const yAxis = d3
-        .scaleLinear()
+      const tickValues = range(minCount, maxCount + 1, tickInterval);
+      const yAxis = scaleLinear()
         .domain([maxCount, minCount])
         .range([margin.top, graphHeight - margin.bottom]);
       svg
         .append('g')
         .attr('transform', `translate(${margin.left}, 0)`)
         .call(
-          d3
-            .axisLeft(yAxis)
-            .tickValues(tickValues)
-            .tickFormat(d3.format('d'))
-            .tickSizeOuter(0)
+          axisLeft(yAxis).tickValues(tickValues).tickFormat(format('d')).tickSizeOuter(0)
         );
-      const line = d3
-        .line()
+      const dataLine = line()
         .x((d) => xAxis(d.date) + xAxis.bandwidth() / 2)
         .y((d) => yAxis(d.count))
-        .curve(d3.curveBasis);
+        .curve(curveBasis);
       svg
         .append('path')
         .datum(data)
         .attr('fill', 'none')
         .attr('stroke', '#304d6d')
         .attr('stroke-width', 3)
-        .attr('d', line);
+        .attr('d', dataLine);
     }
-  }, [size, margin.left, margin.top, margin.bottom, margin.right, data]);
+  }, [size, margin.left, margin.top, margin.bottom, margin.right, data, graphHeight]);
   return (
     <div>
       <div className='d-flex pt-2' style={{ height: titleHeight + 'px' }}>
-        <h3 className='me-5'>Unique Visitors</h3>
+        <h3 className='mx-5'>Unique Visitors</h3>
         <Button
           style={buttonStyle}
           variant={timeRange === 'week' ? 'info' : 'primary'}

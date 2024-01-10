@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getData, scrollScreen, renderGrid } from './helpers';
 import { setIsDragging } from '../../store/reducers/profileReducer';

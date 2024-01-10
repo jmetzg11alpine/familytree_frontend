@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import * as d3 from 'd3';
+import { select, scaleBand, scaleLinear, axisBottom, max, axisLeft } from 'd3';
 
 const Edits = ({ size, data }) => {
   const d3Container = useRef(null);
@@ -12,29 +12,27 @@ const Edits = ({ size, data }) => {
 
   useEffect(() => {
     if (data && d3Container.current) {
-      const svg = d3.select(d3Container.current);
+      const svg = select(d3Container.current);
       svg.selectAll('*').remove();
       svg.attr('width', size.width).attr('height', size.height);
-      const xAxis = d3
-        .scaleBand()
+      const xAxis = scaleBand()
         .range([margin.left, size.width - margin.right])
         .domain(data.map((d) => d.name))
         .padding(0.05);
       svg
         .append('g')
         .attr('transform', `translate(0, ${size.height - margin.bottom})`)
-        .call(d3.axisBottom(xAxis).tickSize(0))
+        .call(axisBottom(xAxis).tickSize(0))
         .selectAll('text')
         .attr('transform', 'translate(-10, 0)rotate(-45)')
         .style('text-anchor', 'end');
-      const yAxis = d3
-        .scaleLinear()
-        .domain([d3.max(data, (d) => d.count), 0])
+      const yAxis = scaleLinear()
+        .domain([max(data, (d) => d.count), 0])
         .range([margin.top, size.height - margin.bottom]);
       svg
         .append('g')
         .attr('transform', `translate(${margin.left}, 0)`)
-        .call(d3.axisLeft(yAxis).tickSizeOuter(0));
+        .call(axisLeft(yAxis).tickSizeOuter(0));
       svg
         .selectAll('.bar')
         .data(data)
