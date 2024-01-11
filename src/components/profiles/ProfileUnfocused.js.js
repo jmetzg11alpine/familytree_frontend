@@ -38,9 +38,11 @@ const ProfileUnfocused = ({ coor, coorKey }) => {
   };
   useEffect(() => {
     let name = nameKey[coorKey[coor]];
-    const nameSplit = name.split(' ');
-    setFirstName(nameSplit[0]);
-    setSecondName(nameSplit[1]);
+    if (name) {
+      const nameSplit = name.split(' ');
+      setFirstName(nameSplit[0]);
+      setSecondName(nameSplit[1]);
+    }
   }, [coor, coorKey, nameKey]);
   return (
     <div

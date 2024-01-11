@@ -24,25 +24,39 @@ const Photo = () => {
   const [descriptionEditing, setDescriptionEditing] = useState(false);
   const [addPhoto, setAddPhoto] = useState(false);
   const [deletePhoto, setDeletePhoto] = useState(false);
+  const windowHeightPercentage = 0.6;
+  const [imageHeight, setImageHeight] = useState(
+    window.innerHeight * windowHeightPercentage
+  );
+
   const handleClose = () => {
     dispatch(setPhotos(false));
     dispatch(setShowProfile(true));
   };
+
   useEffect(() => {
+    const resizeImage = () => {
+      setImageHeight(window.innerHeight * windowHeightPercentage);
+    };
     getPhotos(profileData.id, setPhotoData, setPhotoPath);
+    window.addEventListener('resize', resizeImage);
     return () => {
       getProfileData(profileData.id, dispatch);
+      window.removeEventListener('resize', resizeImage);
     };
   }, [photos, profileData.id, dispatch, deletePhoto]);
+
   const handleSelect = (selectedIndex, e) => {
     setCurrentSlide(selectedIndex);
   };
+
   useEffect(() => {
     if (photoPath.length) {
       getPhoto(photoPath[currentSlide], setPhotoData);
     }
     setDescriptionEditing(false);
   }, [currentSlide, photoPath]);
+
   const handleCheckboxChange = (event) => {
     const isChecked = event.target.checked;
     if (isChecked) {
@@ -102,7 +116,10 @@ const Photo = () => {
               >
                 {photoPath.map((path, index) => (
                   <Carousel.Item key={index}>
-                    <Image src={`data:image/png;base64,${photoData.current}`} />
+                    <Image
+                      src={`data:image/png;base64,${photoData.current}`}
+                      style={{ maxHeight: imageHeight }}
+                    />
                     <Carousel.Caption>
                       {descriptionEditing ? (
                         <textarea

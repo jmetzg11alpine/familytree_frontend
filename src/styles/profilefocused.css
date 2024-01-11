@@ -51,16 +51,12 @@
 
 .profile-focused-button {
     font-size: 30px;
-    background-color: var(--color-three);
     padding: 10px;
     border-radius: 10px;
     cursor: pointer;
     margin: .7rem 0;
 }
 
-.profile-focused-button:hover {
-    background-color: var(--color-two);
-}
 
 .bio-text {
     font-size: 1.1rem;
