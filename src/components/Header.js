@@ -80,6 +80,7 @@ const Header = () => {
   const location = useLocation();
   const [modalOpen, setModalOpen] = useState(false);
   const makeBigger = () => {
+    console.log('make bigger');
     handleScale(-1, scale, dispatch, coorRange);
   };
   const makeSmaller = () => {
@@ -90,11 +91,13 @@ const Header = () => {
   };
   return (
     <>
-      <div className='header pb-4'>
+      <div className='header pb-4 pt-2'>
         {location.pathname === '/' && (
           <>
-            <div onClick={makeBigger}>+</div>
-            <div onClick={makeSmaller}>-</div>
+            <div className='plus-minus'>
+              <div onClick={makeBigger}>+</div>
+              <div onClick={makeSmaller}>-</div>
+            </div>
           </>
         )}
 

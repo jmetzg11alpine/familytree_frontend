@@ -17,35 +17,55 @@ const ProfileFocused = () => {
   const [bioIsEditing, setBioIsEditing] = useState(false);
   const [bio, setBio] = useState('');
   const [deletePerson, setDeletePerson] = useState(false);
+  const windowHeightPercentage = 0.35;
+  const [imageHeight, setImageHeight] = useState(
+    window.innerHeight * windowHeightPercentage
+  );
+
   useEffect(() => {
     setBio(data.bio);
+    const resizeImage = () => {
+      setImageHeight(window.innerHeight * windowHeightPercentage);
+    };
+    window.addEventListener('resize', resizeImage);
+    return () => {
+      window.removeEventListener('resize', resizeImage);
+    };
   }, [data.bio]);
+
   const handleClose = () => {
     dispatch(setShowProfile(false));
   };
+
   const handleEdit = () => {
     dispatch(setIsEditing(true));
   };
+
   const handleDelete = () => {
     setDeletePerson(true);
   };
+
   const handleBioEdit = () => {
     if (currentUser) {
       setBioIsEditing(true);
     }
   };
+
   const handleBioBlur = () => {
     setBioIsEditing(false);
     updateBio(bio, data.name, currentUser);
     getProfileData(data.id, dispatch);
   };
+
   const handleBioChange = (e) => {
     setBio(e.target.value);
   };
+
   const handlePhoto = () => {
     dispatch(setPhotos(true));
     dispatch(setShowProfile(false));
   };
+
   return (
     <>
       {deletePerson ? (
@@ -64,7 +84,7 @@ const ProfileFocused = () => {
                   onDoubleClick={handlePhoto}
                   fluid
                   roundedCircle
-                  style={{ cursor: 'pointer' }}
+                  style={{ maxHeight: imageHeight, cursor: 'pointer' }}
                 />
               )}
               <div className='mt-3 mb-2'>

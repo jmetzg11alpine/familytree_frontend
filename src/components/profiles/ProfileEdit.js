@@ -20,6 +20,7 @@ const ProfileEdit = () => {
   const [updatedData, setUpdatedData] = useState({});
   const [changesMade, setChangesMade] = useState(false);
   const [originalName, setOriginalName] = useState('');
+
   const handleSave = async () => {
     const results = await updatePerson(
       updatedData,
@@ -37,6 +38,7 @@ const ProfileEdit = () => {
   const handleCancel = () => {
     dispatch(setIsEditing(false));
   };
+
   useEffect(() => {
     getDataToEdit(profileData.id, setUpdatedData, setOriginalName);
   }, [profileData.id]);

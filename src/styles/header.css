@@ -8,6 +8,13 @@
     /* padding: 10px 0 5px 0; */
 }
 
+.plus-minus {
+    display: flex;
+    justify-content: space-between;
+    font-size: 3rem;
+    font-weight: bold;
+}
+
 
 .header a, .header div {
     font-size: 1.5rem;

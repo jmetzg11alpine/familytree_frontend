@@ -1,4 +1,4 @@
-const DisplayInfo = ({ size }) => {
+const DisplayInfo = ({ size, dataUrl }) => {
   const containerStyle = {
     maxWidth: size.width,
     maxHeight: size.height,
@@ -42,13 +42,17 @@ const DisplayInfo = ({ size }) => {
           squares above or below
         </li>
         <li>
-          Dots on the map will grow if there are instances of coordinates with the exact
-          same location
+          Dots on the map will grow if there are more instances of coordinates with the
+          exact same location
         </li>
-        <li>all data is public</li>
-        <li>data is backed up weekly here</li>
         <li>
-          Server and data are hosted in house on a Raspberry pi, which may affect
+          Profile data is backed up monthly and can be seen{' '}
+          <a href={dataUrl} target='_blank' rel='noopener noreferrer'>
+            here
+          </a>
+        </li>
+        <li>
+          Server and data are hosted in house on a Raspberry Pi, which may affect
           performance
         </li>
       </ul>
