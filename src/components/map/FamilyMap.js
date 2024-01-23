@@ -12,7 +12,6 @@ const FamilyMap = () => {
   }, []);
   return (
     <>
-      {' '}
       <CustomMap
         data={data}
         setContent={setContent}

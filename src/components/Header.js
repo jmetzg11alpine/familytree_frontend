@@ -20,7 +20,6 @@ const LoginModal = ({ modalOpen, setModalOpen, dispatch }) => {
       body: JSON.stringify({ username, password }),
     });
     const resp = await response.json();
-    console.log(resp.message === true);
     if (resp.message === true) {
       setMessage('You have logged in');
       dispatch(setCurrentUser(username));
@@ -80,7 +79,6 @@ const Header = () => {
   const location = useLocation();
   const [modalOpen, setModalOpen] = useState(false);
   const makeBigger = () => {
-    console.log('make bigger');
     handleScale(-1, scale, dispatch, coorRange);
   };
   const makeSmaller = () => {

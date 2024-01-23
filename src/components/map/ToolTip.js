@@ -17,8 +17,6 @@ const calculatePosition = (screenPoint, setTop, setLeft) => {
 };
 
 const ToolTip = ({ screenPoint, content }) => {
-  console.log(screenPoint);
-  console.log(content);
   const [top, setTop] = useState(40);
   const [left, setLeft] = useState(40);
   const style = {
