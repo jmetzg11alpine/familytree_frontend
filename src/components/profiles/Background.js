@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getData, scrollScreen, renderGrid } from './helpers';
+import { handleSetCenter, getData, scrollScreenWithResize, renderGrid } from './helpers';
 import { setIsDragging } from '../../store/reducers/profileReducer';
 import ProfileFocused from './ProfileFocused';
 import ConfirmationModal from './ConfirmationModal';
@@ -26,8 +26,14 @@ const Background = () => {
   const [grid, setGrid] = useState([]);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const nameWasEdited = useSelector((state) => state.profileReducer.nameWasEdited);
+  const scale = useSelector((state) => state.profileReducer.scale);
+
   useEffect(() => {
-    scrollScreen(dimensions, containerRef);
+    handleSetCenter(scale, coorRange, containerRef);
+  }, [coorRange]);
+
+  useEffect(() => {
+    scrollScreenWithResize(dimensions, containerRef);
   }, [dimensions]);
 
   useEffect(() => {
@@ -62,14 +68,33 @@ const Background = () => {
     }
   };
 
+  useEffect(() => {
+    const element = containerRef.current;
+    if (!element) return;
+    const onMouseDown = (e) => handleMouseDown(e);
+    const onMouseMove = (e) => handleMouseMove(e);
+    const onMouseUp = () => handleMouseUp();
+    const onTouchStart = (e) => handleMouseDown(e.touches[0]);
+    const onTouchMove = (e) => handleMouseMove(e.touches[0]);
+    const onTouchEnd = () => handleMouseUp();
+    element.addEventListener('mousedown', onMouseDown);
+    element.addEventListener('mousemove', onMouseMove);
+    element.addEventListener('mouseup', onMouseUp);
+    element.addEventListener('touchstart', onTouchStart);
+    element.addEventListener('touchmove', onTouchMove);
+    element.addEventListener('touchend', onTouchEnd);
+    return () => {
+      element.removeEventListener('mousedown', onMouseDown);
+      element.removeEventListener('mousemove', onMouseMove);
+      element.removeEventListener('mouseup', onMouseUp);
+      element.removeEventListener('touchstart', onTouchStart);
+      element.removeEventListener('touchmove', onTouchMove);
+      element.removeEventListener('touchend', onTouchEnd);
+    };
+  });
+
   return (
-    <div
-      className='background-container'
-      ref={containerRef}
-      onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
-    >
+    <div className='background-container' ref={containerRef}>
       {grid}
       {showProfile && <ProfileFocused />}
       {photos && <Photo />}

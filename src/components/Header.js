@@ -1,15 +1,17 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setCurrentUser } from '../store/reducers/profileReducer';
 import { handleScale } from './profiles/helpers';
 import { Link, useLocation } from 'react-router-dom';
-import { Modal, Button, Form } from 'react-bootstrap';
+import { Modal, Button, Form, Navbar } from 'react-bootstrap';
 import '../styles/header.css';
 
 const LoginModal = ({ modalOpen, setModalOpen, dispatch }) => {
   const [message, setMessage] = useState('Log in to make changes');
   const [username, setUsername] = useState('');
+  console.log(username);
   const [password, setPassword] = useState('');
+
   const handleSubmit = async () => {
     const url = process.env.REACT_APP_URL;
     const response = await fetch(`${url}login`, {
@@ -21,8 +23,9 @@ const LoginModal = ({ modalOpen, setModalOpen, dispatch }) => {
     });
     const resp = await response.json();
     if (resp.message === true) {
-      setMessage('You have logged in');
-      dispatch(setCurrentUser(username));
+      setMessage('You are logged in');
+      dispatch(setCurrentUser(username.trim()));
+      setModalOpen(false);
     } else {
       setMessage('Credntials are wrong');
       dispatch(setCurrentUser(''));
@@ -31,10 +34,12 @@ const LoginModal = ({ modalOpen, setModalOpen, dispatch }) => {
   const handleCancel = () => {
     setModalOpen(false);
   };
+
   const handleLogout = () => {
     setMessage('You have logged out');
     dispatch(setCurrentUser(''));
   };
+
   return (
     <Modal show={modalOpen}>
       <Modal.Header>{message}</Modal.Header>
@@ -78,6 +83,11 @@ const Header = () => {
   const currentUser = useSelector((state) => state.profileReducer.currentUser);
   const location = useLocation();
   const [modalOpen, setModalOpen] = useState(false);
+
+  useEffect(() => {
+    handleScale(0, scale, dispatch, coorRange);
+  }, []);
+
   const makeBigger = () => {
     handleScale(-1, scale, dispatch, coorRange);
   };
@@ -89,21 +99,24 @@ const Header = () => {
   };
   return (
     <>
-      <div className='header pb-4 pt-2'>
-        {location.pathname === '/' && (
-          <>
-            <div className='plus-minus'>
-              <div onClick={makeBigger}>+</div>
-              <div onClick={makeSmaller}>-</div>
-            </div>
-          </>
-        )}
-
-        <Link to='/'>Home</Link>
-        <Link to='/map'>Map</Link>
-        <Link to='/info'>Info</Link>
-        <Link onClick={handleLogin}>{currentUser ? 'Logout' : 'Login'}</Link>
-      </div>
+      <Navbar className='py-0'>
+        <div className='header'>
+          {location.pathname === '/' && (
+            <>
+              <div className='plus-minus ms-4'>
+                <div onClick={makeBigger}>+</div>
+                <div onClick={makeSmaller}>-</div>
+              </div>
+            </>
+          )}
+          <div className='header-links'>
+            <Link to='/'>Home</Link>
+            <Link to='/map'>Map</Link>
+            <Link to='/info'>Info</Link>
+            <Link onClick={handleLogin}>{currentUser ? 'Logout' : 'Login'}</Link>
+          </div>
+        </div>
+      </Navbar>
       <LoginModal modalOpen={modalOpen} setModalOpen={setModalOpen} dispatch={dispatch} />
     </>
   );

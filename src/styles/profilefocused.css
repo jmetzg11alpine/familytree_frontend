@@ -25,9 +25,14 @@
     align-items: flex-start;
 }
 
+.image-instructions {
+    font-size: .8rem
+}
+
 .profile-info-container .info {
     text-align: left;
     margin-bottom: 10px;
+    font-size: 1rem;
 }
 
 .focused-footer {
@@ -37,29 +42,17 @@
     justify-content: space-around;
 }
 
-.profile-focused-name {
-    font-size: 44px;
-    font-weight: bold;
-    margin: 20px 0;
-}
 
-.profile-details {
-    display: flex;
-    justify-content: space-around;
-    font-size: 30px;
-}
+
 
 .profile-focused-button {
-    font-size: 30px;
-    padding: 10px;
     border-radius: 10px;
     cursor: pointer;
-    margin: .7rem 0;
 }
 
 
 .bio-text {
-    font-size: 1.1rem;
+    font-size: 1rem;
     padding: 15px 5px;
     overflow: hidden;
     height: 100%;
@@ -69,4 +62,31 @@
     border: solid 2px var(--color-three);
     white-space: pre-wrap;
     text-align: left;
+}
+
+
+@media (max-width: 600px) {
+    .profile-info-container .info {
+        font-size: .75rem;
+    }
+    .bio-text {
+        font-size: .75rem;
+        padding: 10px 3px;
+    }
+    .image-instructions {
+        font-size: .6rem
+    }
+}
+
+@media (max-width: 400px) {
+    .profile-info-container .info {
+        font-size: .5rem
+    }
+    .bio-text {
+        font-size: .5rem;
+        padding: 7px 2px;
+    }
+    .image-instructions {
+        font-size: .4rem
+    }
 }

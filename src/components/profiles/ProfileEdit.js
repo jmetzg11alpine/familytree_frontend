@@ -9,6 +9,7 @@ import {
   renderFormFields,
   RepeatedNameError,
 } from './helpers';
+import '../../styles/profileedit.css';
 
 const ProfileEdit = () => {
   const dispatch = useDispatch();
@@ -52,7 +53,7 @@ const ProfileEdit = () => {
           <Modal.Header>
             <Modal.Title>Edit {profileData.name}</Modal.Title>
           </Modal.Header>
-          <Modal.Body>
+          <Modal.Body className='px-2 py-1'>
             <Form>
               {updatedData.fields &&
                 renderFormFields(updatedData, setUpdatedData, setChangesMade)}

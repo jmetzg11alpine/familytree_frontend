@@ -2,9 +2,11 @@ import { useState } from 'react';
 import { Table, Pagination } from 'react-bootstrap';
 
 const HistoryTable = ({ size, data }) => {
+  const titleHieght = size.height * 0.08;
+  const containerHeight = size.height * 0.92;
   const containerStyle = {
     maxWidth: size.width,
-    maxHeight: size.height,
+    maxHeight: containerHeight,
     display: 'flex',
     flexDirection: 'column',
   };
@@ -16,8 +18,9 @@ const HistoryTable = ({ size, data }) => {
     fontSize: '.85rem',
   };
   const paginationStyle = {
-    marginLeft: '20px',
-    flex: '0 0 auto',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   };
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -28,7 +31,7 @@ const HistoryTable = ({ size, data }) => {
     )}`;
   };
   const [currentPage, setCurrentPage] = useState(1);
-  const rowsPerPage = 12;
+  const rowsPerPage = 11;
   const pageCount = Math.ceil(data.length / rowsPerPage);
   const currentData = data.slice(
     (currentPage - 1) * rowsPerPage,
@@ -62,49 +65,61 @@ const HistoryTable = ({ size, data }) => {
     );
   }
   return (
-    <div style={containerStyle}>
-      <div style={tableStyle}>
-        <Table striped bordered hover>
-          <thead>
-            <tr>
-              <th>User</th>
-              <th>Action</th>
-              <th>Recipient</th>
-              <th>Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {currentData.map((item, index) => (
-              <tr key={index}>
-                <td style={rowStyle}>{item.username}</td>
-                <td style={rowStyle}>{item.action}</td>
-                <td style={rowStyle}>{item.recipient}</td>
-                <td style={rowStyle}>{formatDate(item.created_at)}</td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
+    <div>
+      <div
+        style={{
+          height: titleHieght + 'px',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <h3>History of Changes</h3>
       </div>
-      <div style={paginationStyle}>
-        <Pagination>
-          <Pagination.First
-            onClick={() => handlePageChange(firstPage)}
-            disabled={currentPage === firstPage}
-          />
-          <Pagination.Prev
-            onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage === firstPage}
-          />
-          {paginationItems}
-          <Pagination.Next
-            onClick={() => handlePageChange(currentPage + 1)}
-            disabled={currentPage === lastPage}
-          />
-          <Pagination.Last
-            onClick={() => handlePageChange(lastPage)}
-            disabled={currentPage === lastPage}
-          />
-        </Pagination>
+      <div style={containerStyle}>
+        <div style={tableStyle}>
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th>User</th>
+                <th>Action</th>
+                <th>Recipient</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              {currentData.map((item, index) => (
+                <tr key={index}>
+                  <td style={rowStyle}>{item.username}</td>
+                  <td style={rowStyle}>{item.action}</td>
+                  <td style={rowStyle}>{item.recipient}</td>
+                  <td style={rowStyle}>{formatDate(item.created_at)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </div>
+        <div style={paginationStyle}>
+          <Pagination>
+            <Pagination.First
+              onClick={() => handlePageChange(firstPage)}
+              disabled={currentPage === firstPage}
+            />
+            <Pagination.Prev
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === firstPage}
+            />
+            {paginationItems}
+            <Pagination.Next
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === lastPage}
+            />
+            <Pagination.Last
+              onClick={() => handlePageChange(lastPage)}
+              disabled={currentPage === lastPage}
+            />
+          </Pagination>
+        </div>
       </div>
     </div>
   );

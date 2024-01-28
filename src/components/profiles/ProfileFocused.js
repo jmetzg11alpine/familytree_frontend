@@ -21,6 +21,15 @@ const ProfileFocused = () => {
   const [imageHeight, setImageHeight] = useState(
     window.innerHeight * windowHeightPercentage
   );
+  const isTouchDevice = useSelector((state) => state.profileReducer.isTouchDevice);
+  const [touchStart, setTouchStart] = useState(0);
+
+  const imageMessage = isTouchDevice
+    ? 'tap image for more'
+    : 'double click image for more';
+  const bioMessage = isTouchDevice
+    ? 'write bio by logging in and tapping'
+    : 'write bio by logging in and double clicking';
 
   useEffect(() => {
     setBio(data.bio);
@@ -66,6 +75,22 @@ const ProfileFocused = () => {
     dispatch(setShowProfile(false));
   };
 
+  const handleTouchStart = () => {
+    setTouchStart(Date.now());
+  };
+
+  const handleTouchEndPhoto = () => {
+    if (Date.now() - touchStart < 300) {
+      handlePhoto();
+    }
+  };
+
+  const handleTouchEndBio = () => {
+    if (Date.now() - touchStart < 300) {
+      handleBioEdit();
+    }
+  };
+
   return (
     <>
       {deletePerson ? (
@@ -76,18 +101,23 @@ const ProfileFocused = () => {
         />
       ) : (
         <Container className='profile-focused-container'>
-          <div className='focused-main-body mt-2 p-3'>
+          <div className='focused-main-body mt-2 p-1'>
             <Col xs={4}>
               {data.profile_photo && (
-                <Image
-                  src={`data:image/png;base64,${data.profile_photo}`}
-                  onDoubleClick={handlePhoto}
-                  fluid
-                  roundedCircle
-                  style={{ maxHeight: imageHeight, cursor: 'pointer' }}
-                />
+                <div>
+                  <div className='image-instructions'>{imageMessage}</div>
+                  <Image
+                    src={`data:image/png;base64,${data.profile_photo}`}
+                    onDoubleClick={handlePhoto}
+                    onTouchStart={handleTouchStart}
+                    onTouchEnd={handleTouchEndPhoto}
+                    fluid
+                    roundedCircle
+                    style={{ maxHeight: imageHeight, cursor: 'pointer' }}
+                  />
+                </div>
               )}
-              <div className='mt-3 mb-2'>
+              <div className='mt-1 mb-2'>
                 <h3>{data.name}</h3>
               </div>
               <div className='profile-info-container'>
@@ -99,7 +129,7 @@ const ProfileFocused = () => {
                 )}
                 {data.lat && data.lng ? (
                   <div className='info'>
-                    Latitude: {data.lat}, Longitude: {data.lng}
+                    Lat: {data.lat}, Lng: {data.lng}
                   </div>
                 ) : (
                   <></>
@@ -136,8 +166,13 @@ const ProfileFocused = () => {
                   autoFocus
                 />
               ) : (
-                <div className='bio-text' onDoubleClick={handleBioEdit}>
-                  {bio || 'write bio by double clicking'}
+                <div
+                  className='bio-text'
+                  onDoubleClick={handleBioEdit}
+                  onTouchStart={handleTouchStart}
+                  onTouchEnd={handleTouchEndBio}
+                >
+                  {bio || bioMessage}
                 </div>
               )}
             </Col>

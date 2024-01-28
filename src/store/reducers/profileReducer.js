@@ -21,6 +21,7 @@ const profileSlice = createSlice({
     photos: false,
     currentUser: '',
     nameWasEdited: 0,
+    isTouchDevice: false,
   },
   reducers: {
     setNameKey: (state, action) => {
@@ -77,6 +78,9 @@ const profileSlice = createSlice({
     setNameWasEdited: (state, action) => {
       state.nameWasEdited = action.payload;
     },
+    setIsTouchDevice: (state, action) => {
+      state.isTouchDevice = action.payload;
+    },
   },
 });
 
@@ -99,6 +103,7 @@ export const {
   setPhotos,
   setCurrentUser,
   setNameWasEdited,
+  setIsTouchDevice,
 } = profileSlice.actions;
 
 export default profileSlice.reducer;

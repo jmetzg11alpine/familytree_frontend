@@ -19,6 +19,24 @@ import BlankSpace from './BlankSpace.js';
 import { Form, Button, Card, Image } from 'react-bootstrap';
 const url = process.env.REACT_APP_URL;
 
+export const handleSetCenter = (scale, coorRange, containerRef) => {
+  const container = containerRef.current;
+  const widthCount = coorRange.maxX - coorRange.minY;
+  const heightCount = coorRange.maxY - coorRange.minY;
+  const width = (60 * scale - 2) * widthCount;
+  const height = (60 * scale - 2) * heightCount;
+  container.scrollLeft += width / 2;
+  container.scrollTop += height / 2;
+};
+
+export const scrollScreenWithResize = (dimensions, containerRef) => {
+  const container = containerRef.current;
+  const widthDiff = (dimensions.new.width - dimensions.old.width) / 2;
+  const heightDiff = (dimensions.new.height - dimensions.old.height) / 2;
+  container.scrollLeft += widthDiff;
+  container.scrollTop += heightDiff;
+};
+
 export const handleScale = (value, scale, dispatch, coorRange) => {
   const newScale = value > 0 ? scale - 0.4 : scale + 0.4;
   if ((scale >= 0.6 && value > 0) || (scale <= 3 && value < 0)) {
@@ -38,14 +56,6 @@ export const handleScale = (value, scale, dispatch, coorRange) => {
     );
     dispatch(setScale(newScale));
   }
-};
-
-export const scrollScreen = (dimensions, containerRef) => {
-  const container = containerRef.current;
-  const widthDiff = (dimensions.new.width - dimensions.old.width) / 2;
-  const heightDiff = (dimensions.new.height - dimensions.old.height) / 2;
-  container.scrollLeft += widthDiff;
-  container.scrollTop += heightDiff;
 };
 
 export const renderGrid = (coorRange, coorKey) => {
@@ -410,6 +420,7 @@ export const AddPhoto = ({ setAddPhoto, setPhotoData, setPhotoPath }) => {
   const profileData = useSelector((state) => state.profileReducer.profileData);
   const [photo, setPhoto] = useState(null);
   const [description, setDescription] = useState('');
+
   const handleCancel = () => {
     setAddPhoto(false);
   };
@@ -437,11 +448,11 @@ export const AddPhoto = ({ setAddPhoto, setPhotoData, setPhotoPath }) => {
       <Card.Header>Add a photo for {profileData.name}</Card.Header>
       <Card.Body>
         <Form.Group>
-          <Form.Label>Upload Photo</Form.Label>
+          <Form.Label className='mt-2'>Upload Photo</Form.Label>
           <Form.Control type='file' onChange={handleUpload} />
         </Form.Group>
         <Form.Group>
-          <Form.Label>Add Description</Form.Label>
+          <Form.Label className='mt-2'>Add Description</Form.Label>
           <Form.Control
             as='textarea'
             rows={2}
@@ -450,7 +461,7 @@ export const AddPhoto = ({ setAddPhoto, setPhotoData, setPhotoPath }) => {
           />
         </Form.Group>
       </Card.Body>
-      <Card.Footer>
+      <Card.Footer className='photo-bottons'>
         <Button variant='success' onClick={handleSubmit}>
           Submit
         </Button>
@@ -479,6 +490,7 @@ export const DeletePhoto = ({
   path,
   setPhotoData,
   setPhotoPath,
+  imageHeight,
 }) => {
   const currentUser = useSelector((state) => state.profileReducer.currentUser);
   const profileData = useSelector((state) => state.profileReducer.profileData);
@@ -493,7 +505,10 @@ export const DeletePhoto = ({
     <>
       <Card.Header>Are you sure you want to delete this photo?</Card.Header>
       <Card.Body>
-        <Image src={`data:image/png;base64,${photoData.current}`} />
+        <Image
+          src={`data:image/png;base64,${photoData.current}`}
+          style={{ maxHeight: imageHeight, maxWidth: '80%' }}
+        />
       </Card.Body>
       <Card.Footer>
         <Button variant='danger' onClick={handleDelete}>

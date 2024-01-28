@@ -23,16 +23,17 @@ const Photo = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [descriptionEditing, setDescriptionEditing] = useState(false);
   const [addPhoto, setAddPhoto] = useState(false);
+  console.log(addPhoto);
   const [deletePhoto, setDeletePhoto] = useState(false);
   const windowHeightPercentage = 0.6;
   const [imageHeight, setImageHeight] = useState(
     window.innerHeight * windowHeightPercentage
   );
-
-  const handleClose = () => {
-    dispatch(setPhotos(false));
-    dispatch(setShowProfile(true));
-  };
+  const isTouchDevice = useSelector((state) => state.profileReducer.isTouchDevice);
+  const [touchStart, setTouchStart] = useState(0);
+  const photoDescriptionMessage = isTouchDevice
+    ? 'tap image to add description'
+    : 'double click image to add description';
 
   useEffect(() => {
     const resizeImage = () => {
@@ -55,6 +56,8 @@ const Photo = () => {
       getPhoto(photoPath[currentSlide], setPhotoData);
     }
     setDescriptionEditing(false);
+    // for some unknown reason it would go straight to the add new photo with addPhoto = true
+    setAddPhoto(false);
   }, [currentSlide, photoPath]);
 
   const handleCheckboxChange = (event) => {
@@ -87,6 +90,22 @@ const Photo = () => {
   const handleDelete = () => {
     setDeletePhoto(true);
   };
+
+  const handleClose = () => {
+    dispatch(setPhotos(false));
+    dispatch(setShowProfile(true));
+    setAddPhoto(false);
+  };
+
+  const handleTouchStart = () => {
+    setTouchStart(Date.now());
+  };
+
+  const handleTouchEnd = () => {
+    if (Date.now() - touchStart < 300) {
+      handleDescription();
+    }
+  };
   return (
     <Card>
       {addPhoto ? (
@@ -102,6 +121,7 @@ const Photo = () => {
           path={photoPath[currentSlide]}
           setPhotoData={setPhotoData}
           setPhotoPath={setPhotoPath}
+          imageHeight={imageHeight}
         />
       ) : (
         <>
@@ -119,6 +139,9 @@ const Photo = () => {
                     <Image
                       src={`data:image/png;base64,${photoData.current}`}
                       style={{ maxHeight: imageHeight }}
+                      onDoubleClick={handleDescription}
+                      onTouchStart={handleTouchStart}
+                      onTouchEnd={handleTouchEnd}
                     />
                     <Carousel.Caption>
                       {descriptionEditing ? (
@@ -129,8 +152,9 @@ const Photo = () => {
                           onChange={handleDescriptionChange}
                         />
                       ) : (
-                        <div onDoubleClick={handleDescription}>
-                          {photoData.description || 'add a description'}
+                        <div>
+                          {photoData.description ||
+                            (currentUser ? photoDescriptionMessage : '')}
                         </div>
                       )}
                     </Carousel.Caption>
@@ -144,6 +168,7 @@ const Photo = () => {
               <>
                 {photoPath.length > 0 && (
                   <Form.Check
+                    className='profile-photo-label-check'
                     type='checkbox'
                     label='Profile Photo'
                     checked={photoData.profile_photo}
@@ -151,7 +176,7 @@ const Photo = () => {
                   />
                 )}
                 <Button variant='success' onClick={handleAdd}>
-                  Add Photo
+                  Add
                 </Button>
                 {photoPath.length > 0 && (
                   <Button variant='danger' onClick={handleDelete}>

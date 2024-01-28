@@ -48,7 +48,7 @@ const Visitors = ({ size }) => {
   const graphHeight = size.height * 0.92;
   const titleHeight = size.height * 0.08;
   const margin = {
-    left: size.width * 0.08,
+    left: size.width * 0.05,
     right: size.width * 0.02,
     top: graphHeight * 0.04,
     bottom: graphHeight * 0.09,
@@ -69,7 +69,7 @@ const Visitors = ({ size }) => {
         .attr('transform', `translate(-10, 0)rotate(-45)`)
         .style('text-anchor', 'end');
       const maxCount = max(data, (d) => d.count) + 2;
-      const minCount = min(data, (d) => d.count - 2, 0);
+      const minCount = min(data, (d) => d.count, 0);
       const calculateTickInterval = (maxCount) => {
         if (maxCount - minCount <= 15) return 1;
         if (maxCount - minCount <= 25) return 5;
@@ -101,29 +101,38 @@ const Visitors = ({ size }) => {
   }, [size, margin.left, margin.top, margin.bottom, margin.right, data, graphHeight]);
   return (
     <div>
-      <div className='d-flex pt-2' style={{ height: titleHeight + 'px' }}>
-        <h3 className='mx-5'>Unique Visitors</h3>
-        <Button
-          style={buttonStyle}
-          variant={timeRange === 'week' ? 'info' : 'primary'}
-          onClick={() => handleTimeRange('week')}
-        >
-          Week
-        </Button>
-        <Button
-          style={buttonStyle}
-          variant={timeRange === 'month' ? 'info' : 'primary'}
-          onClick={() => handleTimeRange('month')}
-        >
-          Month
-        </Button>
-        <Button
-          style={buttonStyle}
-          variant={timeRange === 'all' ? 'info' : 'primary'}
-          onClick={() => handleTimeRange('all')}
-        >
-          All
-        </Button>
+      <div
+        style={{
+          height: titleHeight + 'px',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <h3 className='mx-2'>Unique Visitors</h3>
+        <div style={{ display: 'flex' }}>
+          <Button
+            style={buttonStyle}
+            variant={timeRange === 'week' ? 'info' : 'primary'}
+            onClick={() => handleTimeRange('week')}
+          >
+            Week
+          </Button>
+          <Button
+            style={buttonStyle}
+            variant={timeRange === 'month' ? 'info' : 'primary'}
+            onClick={() => handleTimeRange('month')}
+          >
+            Month
+          </Button>
+          <Button
+            style={buttonStyle}
+            variant={timeRange === 'all' ? 'info' : 'primary'}
+            onClick={() => handleTimeRange('all')}
+          >
+            All
+          </Button>
+        </div>
       </div>
       <svg ref={d3Container} />
     </div>

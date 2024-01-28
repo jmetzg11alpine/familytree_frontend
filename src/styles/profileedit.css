@@ -1,0 +1,48 @@
+@media (max-width: 600px) {
+    .modal-body form div label{
+        font-size: .8rem;
+        margin-bottom: 6px;
+    }
+    .modal-body form div input[type='text'] {
+        font-size: .8rem;
+        padding: 5px 10px
+    }
+    .form-check {
+        max-height: 1.3rem;
+    }
+    .modal-body form div input[type='checkbox'] {
+        transform: scale(0.9);
+    }
+}
+
+@media (max-width: 400px) {
+    .modal-body form div label {
+        font-size: .6rem;
+        margin-bottom: 4px;
+    }
+    .modal-body form div input[type='text'] {
+        font-size: .6rem;
+        padding: 4px 8px;
+    }
+    .modal-body form div input[type='checkbox'] {
+        transform: scale(0.8)
+    }
+    .form-check {
+        max-height: 1rem
+    }
+    .checkbox-container .form-check input {
+        margin-top: 6px;
+    }
+}
+
+.checkbox-container .form-check {
+    margin: 0;
+}
+
+/* .checkbox-container .form-check input {
+    margin-top: 6px;
+} */
+
+.checkbox-container .form-check label {
+    margin: 0;
+}

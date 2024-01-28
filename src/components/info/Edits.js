@@ -3,32 +3,34 @@ import { select, scaleBand, scaleLinear, axisBottom, max, axisLeft } from 'd3';
 
 const Edits = ({ size, data }) => {
   const d3Container = useRef(null);
+  const graphHeight = size.height * 0.92;
+  const titleHeight = size.height * 0.08;
   const margin = {
-    left: size.width * 0.08,
+    left: size.width * 0.05,
     right: size.width * 0.02,
-    top: size.height * 0.15,
-    bottom: size.height * 0.15,
+    top: graphHeight * 0.02,
+    bottom: graphHeight * 0.16,
   };
 
   useEffect(() => {
     if (data && d3Container.current) {
       const svg = select(d3Container.current);
       svg.selectAll('*').remove();
-      svg.attr('width', size.width).attr('height', size.height);
+      svg.attr('width', size.width).attr('height', graphHeight);
       const xAxis = scaleBand()
         .range([margin.left, size.width - margin.right])
         .domain(data.map((d) => d.name))
         .padding(0.05);
       svg
         .append('g')
-        .attr('transform', `translate(0, ${size.height - margin.bottom})`)
+        .attr('transform', `translate(0, ${graphHeight - margin.bottom})`)
         .call(axisBottom(xAxis).tickSize(0))
         .selectAll('text')
         .attr('transform', 'translate(-10, 0)rotate(-45)')
         .style('text-anchor', 'end');
       const yAxis = scaleLinear()
         .domain([max(data, (d) => d.count), 0])
-        .range([margin.top, size.height - margin.bottom]);
+        .range([margin.top, graphHeight - margin.bottom]);
       svg
         .append('g')
         .attr('transform', `translate(${margin.left}, 0)`)
@@ -42,19 +44,22 @@ const Edits = ({ size, data }) => {
         .attr('x', (d) => xAxis(d.name))
         .attr('y', (d) => yAxis(d.count))
         .attr('width', xAxis.bandwidth())
-        .attr('height', (d) => size.height - yAxis(d.count) - margin.bottom)
+        .attr('height', (d) => graphHeight - yAxis(d.count) - margin.bottom)
         .attr('fill', '#63adf2');
-      svg
-        .append('text')
-        .attr('x', size.width / 2)
-        .attr('y', margin.top / 2)
-        .attr('text-anchor', 'middle')
-        .style('font-size', `${size.width * 0.03}px`)
-        .text('Changes Made by Users');
     }
-  }, [size, margin.left, margin.top, margin.bottom, margin.right, data]);
+  }, [size, margin.left, margin.top, margin.bottom, margin.right, data, graphHeight]);
   return (
     <div>
+      <div
+        style={{
+          height: titleHeight + 'px',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <h3>Changes made by users</h3>
+      </div>
       <svg ref={d3Container} />
     </div>
   );

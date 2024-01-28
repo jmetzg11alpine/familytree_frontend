@@ -66,3 +66,15 @@
     justify-content: space-around;
     align-items: center;
 }
+
+@media (max-width: 600px) {
+    .profile-photo-label-check label {
+            font-size: .8rem
+        }
+}
+
+@media (max-width: 400px) {
+    .profile-photo-lable-check label {
+        font-size: .6rem
+    }
+}

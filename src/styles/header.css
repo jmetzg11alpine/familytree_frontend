@@ -1,37 +1,53 @@
 .header {
     background-color: var(--color-one);
-    width: 100%;
+    width: 100% !important;
     height: 5vh;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
-    /* padding: 10px 0 5px 0; */
 }
 
 .plus-minus {
     display: flex;
     justify-content: space-between;
-    font-size: 3rem;
+    font-size: 2rem;
     font-weight: bold;
-}
-
-
-.header a, .header div {
-    font-size: 1.5rem;
+    max-width: 70px;
+    width: 15%;
     color: white;
-    margin: 0 20px;
-    cursor: pointer;
-    margin-top: 1.8%;
-    /* padding: 10px 0; */
-
 }
 
+.plus-minus div {
+    cursor: pointer;
+}
+.plus-minus div:hover {
+    color: var(--color-two);
+}
 
+.header-links {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
 
-.header a {
+.header-links a {
+    font-size: 1.5rem;
     color: white;
     text-decoration: none;
 }
+
+@media (max-width: 600px) {
+    .header-links a {
+        font-size: 1rem
+    }
+}
+
+@media (max-width: 400px) {
+    .header-lins a {
+        font-size: .75rem
+    }
+}
+
 
 .header a:hover {
     color: var(--color-two);
