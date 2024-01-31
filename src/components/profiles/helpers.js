@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  setNameKey,
+  setNameBirthKey,
   setCoorKey,
   setCoorRange,
   setProfileData,
@@ -89,7 +89,7 @@ export const getData = async (dispatch) => {
       },
     });
     const data = await response.json();
-    dispatch(setNameKey(data.name_key));
+    dispatch(setNameBirthKey(data.name_birth_key));
     dispatch(setCoorKey(data.coor_key));
     dispatch(setCoorRange(data.coor_range));
   } catch (error) {
@@ -137,14 +137,40 @@ const handleFormChange = (e, index, multiple, setData, setChangesMade) => {
   });
 };
 
-export const renderFormFields = (data, setData, setChangesMade) => {
+const handleLabel = (country, label) => {
+  if (country === 'US') {
+    return label;
+  } else {
+    if (label === 'Name') {
+      return 'Имя';
+    } else if (label === 'Birthday') {
+      return 'Рождение';
+    } else if (label === 'Location') {
+      return 'Расположение';
+    } else if (label === 'Latitude') {
+      return 'Широта';
+    } else if (label === 'Longitude') {
+      return 'Долгота';
+    } else if (label === 'Parents') {
+      return 'Родители';
+    } else if (label === 'Siblings') {
+      return 'Братья и Сестыр';
+    } else if (label === 'Spouse') {
+      return 'Супруг(а)';
+    } else if (label === 'Children') {
+      return 'Дети';
+    }
+  }
+};
+
+export const renderFormFields = (data, setData, setChangesMade, country) => {
   return data.fields.map((field, index) => {
     if (field.options && field.options.length === 0) {
       return null;
     }
     return (
       <Form.Group key={index} controlId={field.label}>
-        <Form.Label>{field.label}</Form.Label>
+        <Form.Label>{handleLabel(country, field.label)}</Form.Label>
         {field.options ? (
           <div className='checkbox-container'>
             {field.options.map((option, optionIndex) => (

@@ -1,7 +1,9 @@
 import { useEffect, useRef } from 'react';
 import { select, scaleBand, scaleLinear, axisBottom, max, axisLeft } from 'd3';
+import { useSelector } from 'react-redux';
 
 const Edits = ({ size, data }) => {
+  const country = useSelector((state) => state.profileReducer.country);
   const d3Container = useRef(null);
   const graphHeight = size.height * 0.92;
   const titleHeight = size.height * 0.08;
@@ -58,7 +60,7 @@ const Edits = ({ size, data }) => {
           alignItems: 'center',
         }}
       >
-        <h3>Changes made by users</h3>
+        <h3>{country === 'US' ? 'Changes count' : 'Количество изменений'}</h3>
       </div>
       <svg ref={d3Container} />
     </div>

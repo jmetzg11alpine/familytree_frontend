@@ -4,9 +4,26 @@ import { setShowProfile, setPhotos } from '../../store/reducers/profileReducer';
 import { getProfileData } from './helpers';
 import '../../styles/profileunfocused.css';
 
+const getColor = (stringYear) => {
+  if (!stringYear) return '#62adf2';
+  const startYear = 1800;
+  const endYear = 2030;
+  const startColor = { r: 0xd7, g: 0x26, b: 0x3d };
+  const endColor = { r: 0x30, g: 0x4d, b: 0x6d };
+  const year = new Date(stringYear).getFullYear();
+  const position = (year - startYear) / (endYear - startYear);
+  const interpolate = (start, end, pos) => Math.round(start + (end - start) * pos);
+  const r = interpolate(startColor.r, endColor.r, position);
+  const g = interpolate(startColor.g, endColor.g, position);
+  const b = interpolate(startColor.b, endColor.b, position);
+  const rgbToHex = (r, g, b) =>
+    '#' + [r, g, b].map((x) => x.toString(16).padStart(2, '0')).join('');
+  return rgbToHex(r, g, b);
+};
+
 const ProfileUnfocused = ({ coor, coorKey }) => {
   const dispatch = useDispatch();
-  const nameKey = useSelector((state) => state.profileReducer.nameKey);
+  const nameBirthKey = useSelector((state) => state.profileReducer.nameBirthKey);
   const isDragging = useSelector((state) => state.profileReducer.isDragging);
   const scale = useSelector((state) => state.profileReducer.scale);
   const [firstName, setFirstName] = useState('');
@@ -15,6 +32,7 @@ const ProfileUnfocused = ({ coor, coorKey }) => {
     width: 60 * scale - 2 + 'px',
     height: 60 * scale - 2 + 'px',
     cursor: isDragging ? 'grabbing' : 'grab',
+    backgroundColor: getColor(nameBirthKey[coorKey[coor]]['birth']),
   };
   const getFontSize = () => {
     let nameLength = 10;
@@ -36,14 +54,16 @@ const ProfileUnfocused = ({ coor, coorKey }) => {
     getProfileData(coorKey[coor], dispatch);
     dispatch(setPhotos(false));
   };
+
   useEffect(() => {
-    let name = nameKey[coorKey[coor]];
+    let name = nameBirthKey[coorKey[coor]]['name'];
     if (name) {
       const nameSplit = name.split(' ');
       setFirstName(nameSplit[0]);
       setSecondName(nameSplit[1]);
     }
-  }, [coor, coorKey, nameKey]);
+  }, [coor, coorKey, nameBirthKey]);
+
   return (
     <div
       className='profile-unfocused-container'

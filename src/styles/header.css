@@ -52,3 +52,22 @@
 .header a:hover {
     color: var(--color-two);
 }
+
+.header-flag-container {
+    max-width: 100px;
+    display: flex;
+    justify-content: space-around;
+
+}
+
+.flag {
+    cursor: pointer;
+    width: 25%;
+    opacity: 0.6;
+    transition: width 0.3s, opacity 0.3s
+}
+
+.flag.active{
+    width: 30%;
+    opacity: 1;
+}

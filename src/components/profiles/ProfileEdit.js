@@ -18,6 +18,7 @@ const ProfileEdit = () => {
   const isEditing = useSelector((state) => state.profileReducer.isEditing);
   const profileData = useSelector((state) => state.profileReducer.profileData);
   const nameWasEdited = useSelector((state) => state.profileReducer.nameWasEdited);
+  const country = useSelector((state) => state.profileReducer.country);
   const [updatedData, setUpdatedData] = useState({});
   const [changesMade, setChangesMade] = useState(false);
   const [originalName, setOriginalName] = useState('');
@@ -51,21 +52,25 @@ const ProfileEdit = () => {
       ) : (
         <>
           <Modal.Header>
-            <Modal.Title>Edit {profileData.name}</Modal.Title>
+            <Modal.Title>
+              {country === 'US' ? 'Edit' : 'Редактировать'} {profileData.name}
+            </Modal.Title>
           </Modal.Header>
           <Modal.Body className='px-2 py-1'>
             <Form>
               {updatedData.fields &&
-                renderFormFields(updatedData, setUpdatedData, setChangesMade)}
+                renderFormFields(updatedData, setUpdatedData, setChangesMade, country)}
             </Form>
           </Modal.Body>
           <Modal.Footer className='d-flex justify-content-between'>
             {changesMade && (
               <Button variant='success' onClick={handleSave}>
-                Save
+                {country === 'US' ? 'Save' : 'Сохранить'}
               </Button>
             )}
-            <Button onClick={handleCancel}>Cancel</Button>
+            <Button onClick={handleCancel}>
+              {country === 'US' ? 'Cancel' : 'Отмена'}
+            </Button>
           </Modal.Footer>
         </>
       )}

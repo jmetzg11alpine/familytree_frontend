@@ -13,7 +13,6 @@ const Background = () => {
   const dispatch = useDispatch();
   const coorRange = useSelector((state) => state.profileReducer.coorRange);
   const coorKey = useSelector((state) => state.profileReducer.coorKey);
-  const nameKey = useSelector((state) => state.profileReducer.nameKey);
   const showProfile = useSelector((state) => state.profileReducer.showProfile);
   const isEditing = useSelector((state) => state.profileReducer.isEditing);
   const isDragging = useSelector((state) => state.profileReducer.isDragging);
@@ -42,7 +41,7 @@ const Background = () => {
 
   useEffect(() => {
     setGrid(renderGrid(coorRange, coorKey));
-  }, [coorRange, coorKey, nameKey]);
+  }, [coorRange, coorKey]);
 
   const handleMouseDown = (e) => {
     if (!modalOpened) {

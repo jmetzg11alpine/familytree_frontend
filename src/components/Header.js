@@ -1,15 +1,19 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setCurrentUser } from '../store/reducers/profileReducer';
+import { setCurrentUser, selectCountry } from '../store/reducers/profileReducer';
 import { handleScale } from './profiles/helpers';
 import { Link, useLocation } from 'react-router-dom';
 import { Modal, Button, Form, Navbar } from 'react-bootstrap';
 import '../styles/header.css';
+import usaFlag from '../styles/images/united-states-flag-icon.svg';
+import russianFlag from '../styles/images/russia-flag-icon.svg';
 
 const LoginModal = ({ modalOpen, setModalOpen, dispatch }) => {
-  const [message, setMessage] = useState('Log in to make changes');
+  const country = useSelector((state) => state.profileReducer.country);
+  const [message, setMessage] = useState(
+    country === 'USA' ? 'Log in to make changes' : 'Войдите, чтобы внести изменения'
+  );
   const [username, setUsername] = useState('');
-  console.log(username);
   const [password, setPassword] = useState('');
 
   const handleSubmit = async () => {
@@ -23,11 +27,11 @@ const LoginModal = ({ modalOpen, setModalOpen, dispatch }) => {
     });
     const resp = await response.json();
     if (resp.message === true) {
-      setMessage('You are logged in');
+      setMessage(country === 'RU' ? 'Вы вошли в систему' : 'You are logged in');
       dispatch(setCurrentUser(username.trim()));
       setModalOpen(false);
     } else {
-      setMessage('Credntials are wrong');
+      setMessage(country === 'US' ? 'Credentials are wrong' : 'Учетные данные неверны');
       dispatch(setCurrentUser(''));
     }
   };
@@ -37,6 +41,7 @@ const LoginModal = ({ modalOpen, setModalOpen, dispatch }) => {
 
   const handleLogout = () => {
     setMessage('You have logged out');
+    setMessage(country === 'US' ? 'You have logged out' : 'Вы успешно вышли');
     dispatch(setCurrentUser(''));
   };
 
@@ -46,18 +51,20 @@ const LoginModal = ({ modalOpen, setModalOpen, dispatch }) => {
       <Modal.Body>
         <Form>
           <Form.Group>
-            <Form.Label>Username</Form.Label>
+            <Form.Label>{country === 'US' ? 'Username' : 'Имя пользователя'}</Form.Label>
             <Form.Control
               type='text'
-              placeholder='Enter username'
+              placeholder={
+                country === 'US' ? 'Enter username' : 'Введите имя пользователя'
+              }
               onChange={(e) => setUsername(e.target.value)}
             />
           </Form.Group>
           <Form.Group>
-            <Form.Label>Password</Form.Label>
+            <Form.Label>{country === 'US' ? 'Password' : 'Пароль'}</Form.Label>
             <Form.Control
               type='text'
-              placeholder='Enter password'
+              placeholder={country === 'US' ? 'Enter password' : 'Введите пароль'}
               onChange={(e) => setPassword(e.target.value)}
             />
           </Form.Group>
@@ -65,14 +72,38 @@ const LoginModal = ({ modalOpen, setModalOpen, dispatch }) => {
       </Modal.Body>
       <Modal.Footer className='d-flex justify-content-between'>
         <Button variant='success' onClick={handleSubmit}>
-          Submit
+          {country === 'US' ? 'Submit' : 'Отправить'}
         </Button>
         <Button variant='secondary' onClick={handleLogout}>
-          Logout
+          {country === 'US' ? 'Logout' : 'Выйти'}
         </Button>
-        <Button onClick={handleCancel}>Close</Button>
+        <Button onClick={handleCancel}>{country === 'US' ? 'Close' : 'Закрыть'}</Button>
       </Modal.Footer>
     </Modal>
+  );
+};
+
+const FlagSelector = () => {
+  const dispatch = useDispatch();
+  const country = useSelector((state) => state.profileReducer.country);
+  const handleClick = (countryCode) => {
+    dispatch(selectCountry(countryCode));
+  };
+  return (
+    <div className='header-flag-container'>
+      <img
+        alt='usa flag'
+        className={`flag ${country === 'US' ? 'active' : ''}`}
+        src={usaFlag}
+        onClick={() => handleClick('US')}
+      />
+      <img
+        alt='russian flag'
+        className={`flag ${country === 'RU' ? 'active' : ''}`}
+        src={russianFlag}
+        onClick={() => handleClick('RU')}
+      />
+    </div>
   );
 };
 
@@ -81,12 +112,9 @@ const Header = () => {
   const scale = useSelector((state) => state.profileReducer.scale);
   const coorRange = useSelector((state) => state.profileReducer.coorRange);
   const currentUser = useSelector((state) => state.profileReducer.currentUser);
+  const country = useSelector((state) => state.profileReducer.country);
   const location = useLocation();
   const [modalOpen, setModalOpen] = useState(false);
-
-  useEffect(() => {
-    handleScale(0, scale, dispatch, coorRange);
-  }, []);
 
   const makeBigger = () => {
     handleScale(-1, scale, dispatch, coorRange);
@@ -97,6 +125,7 @@ const Header = () => {
   const handleLogin = () => {
     setModalOpen(true);
   };
+
   return (
     <>
       <Navbar className='py-0'>
@@ -110,10 +139,19 @@ const Header = () => {
             </>
           )}
           <div className='header-links'>
-            <Link to='/'>Home</Link>
-            <Link to='/map'>Map</Link>
-            <Link to='/info'>Info</Link>
-            <Link onClick={handleLogin}>{currentUser ? 'Logout' : 'Login'}</Link>
+            <Link to='/'>{country === 'US' ? 'Home' : 'Главная'}</Link>
+            <Link to='/map'>{country === 'US' ? 'Map' : 'Карта'}</Link>
+            <Link to='/info'>{country === 'US' ? 'Info' : 'Инфо'}</Link>
+            <Link onClick={handleLogin}>
+              {currentUser
+                ? country === 'US'
+                  ? 'Lougout'
+                  : 'Выход'
+                : country === 'RU'
+                ? 'Вход'
+                : 'Login'}
+            </Link>
+            <FlagSelector />
           </div>
         </div>
       </Navbar>

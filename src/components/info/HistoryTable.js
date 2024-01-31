@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { Table, Pagination } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 
 const HistoryTable = ({ size, data }) => {
+  const country = useSelector((state) => state.profileReducer.country);
   const titleHieght = size.height * 0.08;
   const containerHeight = size.height * 0.92;
   const containerStyle = {
@@ -74,17 +76,17 @@ const HistoryTable = ({ size, data }) => {
           alignItems: 'center',
         }}
       >
-        <h3>History of Changes</h3>
+        <h3>{country === 'US' ? 'History of Changes' : 'История изменений'}</h3>
       </div>
       <div style={containerStyle}>
         <div style={tableStyle}>
           <Table striped bordered hover>
             <thead>
               <tr>
-                <th>User</th>
-                <th>Action</th>
-                <th>Recipient</th>
-                <th>Date</th>
+                <th>{country === 'US' ? 'User' : 'Пользователь'}</th>
+                <th>{country === 'US' ? 'Action' : 'Действие'}</th>
+                <th>{country === 'US' ? 'Recipient' : 'Получатель'}</th>
+                <th>{country === 'US' ? 'Date' : 'Дата'}</th>
               </tr>
             </thead>
             <tbody>

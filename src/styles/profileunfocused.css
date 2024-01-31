@@ -1,18 +1,17 @@
 .profile-unfocused-container {
-    border-radius: 7px;
-    border: 1px solid black;
+    border-radius: 10px;
     user-select: none;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    background-color: var(--color-two);
-    cursor: pointer !important
+    cursor: pointer !important;
+    color: white;
 }
 
 .profile-unfocused-container:hover {
-    background-color: var(--color-four);
-    color: white;
+    font-weight: bold;
+    border-radius: 6px;
 }
 
 .profile-unfocused-name {

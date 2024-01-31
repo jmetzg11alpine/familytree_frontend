@@ -1,5 +1,6 @@
 import { useRef, useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 import {
   select,
   scaleBand,
@@ -33,6 +34,7 @@ const buttonStyle = {
 };
 
 const Visitors = ({ size }) => {
+  const country = useSelector((state) => state.profileReducer.country);
   const d3Container = useRef(null);
   const [data, setData] = useState(null);
   const [timeRange, setTimeRange] = useState('week');
@@ -109,28 +111,28 @@ const Visitors = ({ size }) => {
           alignItems: 'center',
         }}
       >
-        <h3 className='mx-2'>Unique Visitors</h3>
+        <h3 className='mx-2'>{country === 'US' ? 'Unique Visitors' : 'Посетители'}</h3>
         <div style={{ display: 'flex' }}>
           <Button
             style={buttonStyle}
             variant={timeRange === 'week' ? 'info' : 'primary'}
             onClick={() => handleTimeRange('week')}
           >
-            Week
+            {country === 'US' ? 'Week' : 'нед.'}
           </Button>
           <Button
             style={buttonStyle}
             variant={timeRange === 'month' ? 'info' : 'primary'}
             onClick={() => handleTimeRange('month')}
           >
-            Month
+            {country === 'US' ? 'Month' : 'мес.'}
           </Button>
           <Button
             style={buttonStyle}
             variant={timeRange === 'all' ? 'info' : 'primary'}
             onClick={() => handleTimeRange('all')}
           >
-            All
+            {country === 'US' ? 'All' : 'Все'}
           </Button>
         </div>
       </div>

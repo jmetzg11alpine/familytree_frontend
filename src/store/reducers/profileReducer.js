@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const profileSlice = createSlice({
   name: 'profileReducer',
   initialState: {
-    nameKey: {},
+    nameBirthKey: {},
     coorKey: {},
     coorRange: { minY: -10, maxY: 30, minX: -40, maxX: 10 },
     profileNumber: 1,
@@ -22,10 +22,11 @@ const profileSlice = createSlice({
     currentUser: '',
     nameWasEdited: 0,
     isTouchDevice: false,
+    country: 'US',
   },
   reducers: {
-    setNameKey: (state, action) => {
-      state.nameKey = action.payload;
+    setNameBirthKey: (state, action) => {
+      state.nameBirthKey = action.payload;
     },
     setCoorKey: (state, action) => {
       state.coorKey = action.payload;
@@ -81,11 +82,14 @@ const profileSlice = createSlice({
     setIsTouchDevice: (state, action) => {
       state.isTouchDevice = action.payload;
     },
+    selectCountry: (state, action) => {
+      state.country = action.payload;
+    },
   },
 });
 
 export const {
-  setNameKey,
+  setNameBirthKey,
   setCoorKey,
   setCoorRange,
   setProfileNumber,
@@ -104,6 +108,7 @@ export const {
   setCurrentUser,
   setNameWasEdited,
   setIsTouchDevice,
+  selectCountry,
 } = profileSlice.actions;
 
 export default profileSlice.reducer;
