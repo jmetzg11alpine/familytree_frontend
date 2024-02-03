@@ -1,5 +1,5 @@
 .card{
-    background-color: var(--color-three) !important;
+    background-color: var(--color-photo-background) !important;
     position: fixed !important;
     top: 10% !important;
     z-index: 2 !important;

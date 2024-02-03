@@ -1,6 +1,6 @@
 .profile-focused-container {
     position: fixed;
-    background-color: var(--color-five);
+    background-color: var(--color-profile-focused);
     top: 10%;
     left: 0;
     right:0;
@@ -59,7 +59,7 @@
     width: 100%;
     overflow-y: auto;
     border-radius: 8px;
-    border: solid 2px var(--color-three);
+    border: solid 2px var(--color-bio-border);
     white-space: pre-wrap;
     text-align: left;
 }

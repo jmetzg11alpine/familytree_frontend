@@ -23,6 +23,7 @@ const AddNewModal = () => {
   const currentUser = useSelector((state) => state.profileReducer.currentUser);
   const [formData, setFormData] = useState({ fields: [] });
   const [changesMade, setChangesMade] = useState(false);
+  const country = useSelector((state) => state.profileReducer.country);
 
   useEffect(() => {
     if (squareCoor) {
@@ -87,7 +88,9 @@ const AddNewModal = () => {
             <Modal.Title>Add New Relative</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Form>{renderFormFields(formData, setFormData, setChangesMade)}</Form>
+            <Form>
+              {renderFormFields(formData, setFormData, setChangesMade, country)}
+            </Form>
           </Modal.Body>
           <Modal.Footer className='d-flex justify-content-between'>
             {changesMade && (

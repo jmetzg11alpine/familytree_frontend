@@ -23,6 +23,7 @@ const profileSlice = createSlice({
     nameWasEdited: 0,
     isTouchDevice: false,
     country: 'US',
+    activeSquare: false,
   },
   reducers: {
     setNameBirthKey: (state, action) => {
@@ -85,6 +86,9 @@ const profileSlice = createSlice({
     selectCountry: (state, action) => {
       state.country = action.payload;
     },
+    setActiveSquare: (state, action) => {
+      state.activeSquare = action.payload;
+    },
   },
 });
 
@@ -109,6 +113,7 @@ export const {
   setNameWasEdited,
   setIsTouchDevice,
   selectCountry,
+  setActiveSquare,
 } = profileSlice.actions;
 
 export default profileSlice.reducer;

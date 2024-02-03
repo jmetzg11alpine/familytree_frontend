@@ -1,5 +1,5 @@
 .header {
-    background-color: var(--color-one);
+    background-color: var(--color-navbar);
     width: 100% !important;
     height: 5vh;
     display: flex;
@@ -21,7 +21,7 @@
     cursor: pointer;
 }
 .plus-minus div:hover {
-    color: var(--color-two);
+    color: var(--color-navbar-hover);
 }
 
 .header-links {
@@ -50,7 +50,7 @@
 
 
 .header a:hover {
-    color: var(--color-two);
+    color: var(--color-navbar-hover);
 }
 
 .header-flag-container {

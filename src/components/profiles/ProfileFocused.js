@@ -4,6 +4,7 @@ import {
   setShowProfile,
   setIsEditing,
   setPhotos,
+  setActiveSquare,
 } from '../../store/reducers/profileReducer';
 import { Container, Col, Image } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
@@ -61,6 +62,11 @@ const ProfileFocused = () => {
 
   const handleDelete = () => {
     setDeletePerson(true);
+  };
+
+  const handleMove = () => {
+    dispatch(setActiveSquare(data.coor));
+    dispatch(setShowProfile(false));
   };
 
   const handleBioEdit = () => {
@@ -214,6 +220,13 @@ const ProfileFocused = () => {
                   onClick={handleEdit}
                 >
                   {country === 'US' ? 'Edit' : 'Редактировать'}
+                </Button>
+                <Button
+                  variant='info'
+                  className='profile-focused-button'
+                  onClick={handleMove}
+                >
+                  {country === 'US' ? 'Move' : 'Переместить'}
                 </Button>
                 <Button
                   variant='danger'

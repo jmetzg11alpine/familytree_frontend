@@ -1,9 +1,11 @@
 :root {
-    --color-one: #82A0BC;
-    --color-two: #304d6d;;
-    --color-three: #a7cced;
-    --color-four: #81F7E5;
-    --color-five: #63adf2;
+    --color-navbar: #63adf2;
+    --color-navbar-hover: #304d6d;;
+    --color-photo-background: #a7cced;
+    --color-bio-border: #a7cced;
+    --color-profile-focused: #82A0BC;
+    --color-unfocused-no-birthday: #63adf2;
+    --color-move-square: #81f7e5;
 }
 
 body,
@@ -12,3 +14,5 @@ html {
     margin: 0;
     padding: 0;
 }
+
+

@@ -145,7 +145,7 @@ const Header = () => {
             <Link onClick={handleLogin}>
               {currentUser
                 ? country === 'US'
-                  ? 'Lougout'
+                  ? 'Logout'
                   : 'Выход'
                 : country === 'RU'
                 ? 'Вход'

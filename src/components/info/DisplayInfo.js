@@ -78,14 +78,6 @@ const DisplayInfo = ({ size, dataUrl }) => {
               : '- Точки на карте увеличатся, если будет больше координат с точно таким же местоположением'}
           </li>
         </ul>
-        <div style={titleStyle}>{country === 'US' ? 'Advice' : 'Советы'}</div>
-        <ul className='mb-1' style={listStyle}>
-          <li>
-            {country === 'US'
-              ? '- Place family members before filling in information as it can be tricky to fit everyone and you may need to delete people'
-              : '- Разместите членов семьи перед заполнением информации, так как может быть сложно уместить всех, и вам, возможно, придется удалять людей'}
-          </li>
-        </ul>
         <div style={titleStyle}>{country === 'US' ? 'Data' : 'Данные'}</div>
         <ul className='mb-1' style={listStyle}>
           <li>

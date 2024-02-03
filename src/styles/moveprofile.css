@@ -1,0 +1,35 @@
+.move-square-container {
+    max-width: 500px;
+    top: 2% !important
+}
+
+.middleArrows img:nth-child(1) {
+    margin-right: 5%
+}
+
+.middleArrows img:nth-child(2) {
+    margin-left: 5%
+}
+
+.arrowVertical  {
+    height: 6%;
+    width: 6%;
+}
+
+.arrowHorizontal {
+    width: 4%;
+    height: 4%;
+}
+
+
+.card-body img {
+    cursor: pointer
+}
+
+.card-body img:hover {
+    filter: brightness(0) invert(1);
+}
+
+.move-disabled {
+    cursor: not-allowed !important;
+}

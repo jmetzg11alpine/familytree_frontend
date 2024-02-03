@@ -7,6 +7,7 @@ import ConfirmationModal from './ConfirmationModal';
 import AddNewModal from './AddNewModal';
 import ProfileEdit from './ProfileEdit';
 import Photo from './Photo';
+import MoveProfile from './MoveProfile';
 import '../../styles/background.css';
 
 const Background = () => {
@@ -26,6 +27,7 @@ const Background = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const nameWasEdited = useSelector((state) => state.profileReducer.nameWasEdited);
   const scale = useSelector((state) => state.profileReducer.scale);
+  const activeSquare = useSelector((state) => state.profileReducer.activeSquare);
 
   useEffect(() => {
     handleSetCenter(scale, coorRange, containerRef);
@@ -40,8 +42,8 @@ const Background = () => {
   }, [dispatch, nameWasEdited]);
 
   useEffect(() => {
-    setGrid(renderGrid(coorRange, coorKey));
-  }, [coorRange, coorKey]);
+    setGrid(renderGrid(coorRange, coorKey, activeSquare));
+  }, [coorRange, coorKey, activeSquare]);
 
   const handleMouseDown = (e) => {
     if (!modalOpened) {
@@ -97,6 +99,7 @@ const Background = () => {
       {grid}
       {showProfile && <ProfileFocused />}
       {photos && <Photo />}
+      {activeSquare && <MoveProfile />}
       <ConfirmationModal />
       <AddNewModal />
       <ProfileEdit />

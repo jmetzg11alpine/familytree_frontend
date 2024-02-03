@@ -2,20 +2,26 @@ import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSquareCoor, setSquareSelected } from '../../store/reducers/profileReducer';
 
-const BlankSpace = ({ coor, isDragging }) => {
+const BlankSpace = ({ coor, isDragging, activeSquare }) => {
   const dispatch = useDispatch();
   const squareCoor = useSelector((state) => state.profileReducer.squareCoor);
   const scale = useSelector((state) => state.profileReducer.scale);
   const currentUser = useSelector((state) => state.profileReducer.currentUser);
   const [touchStart, setTouchStart] = useState(0);
+  const isActive = coor === activeSquare;
 
   const style = {
     width: 60 * scale - 2 + 'px',
     height: 60 * scale - 2 + 'px',
+    borderRadius: '10px',
     userSelect: 'none',
-    border: squareCoor === coor ? '1px solid black' : '1px solid transparent',
+    border: isActive
+      ? '2px solid black'
+      : squareCoor === coor
+      ? '1px solid black'
+      : '1px solid transparent',
     cursor: isDragging ? 'grabbing' : 'grab',
-    backgroundColor: squareCoor === coor ? '#82a0bc' : '',
+    backgroundColor: isActive ? '#81f7e5' : squareCoor === coor ? '#82a0bc' : '',
   };
 
   const handleDoubleClick = () => {

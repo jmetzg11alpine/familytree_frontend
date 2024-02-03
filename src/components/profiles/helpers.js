@@ -58,7 +58,7 @@ export const handleScale = (value, scale, dispatch, coorRange) => {
   }
 };
 
-export const renderGrid = (coorRange, coorKey) => {
+export const renderGrid = (coorRange, coorKey, activeSquare) => {
   console.log('grid rendered');
   const grid = [];
   for (let y = coorRange.minY; y <= coorRange.maxY; y++) {
@@ -66,9 +66,16 @@ export const renderGrid = (coorRange, coorKey) => {
     for (let x = coorRange.minX; x <= coorRange.maxX; x++) {
       const key = `${x}<>${y}`;
       if (coorKey.hasOwnProperty(key)) {
-        row.push(<ProfileUnfocused key={key} coor={key} coorKey={coorKey} />);
+        row.push(
+          <ProfileUnfocused
+            key={key}
+            coor={key}
+            coorKey={coorKey}
+            activeSquare={activeSquare}
+          />
+        );
       } else {
-        row.push(<BlankSpace key={key} coor={key} />);
+        row.push(<BlankSpace key={key} coor={key} activeSquare={activeSquare} />);
       }
     }
     grid.push(
@@ -544,4 +551,16 @@ export const DeletePhoto = ({
       </Card.Footer>
     </>
   );
+};
+
+export const updateLocation = async (personID, newLocation, currentUser) => {
+  const response = await fetch(`${url}update_location`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ personID, newLocation, currentUser }),
+  });
+  const resp = await response.json();
+  console.log(resp);
 };
