@@ -1,0 +1,138 @@
+.agency-container {
+    height: 90vh;
+    overflow: hidden;
+}
+
+.agency-col {
+    height: 65vh;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.agency-col h3 {
+    text-align: center;
+    font-size: 38px;
+}
+
+.agency-text-container {
+    height: 25vh;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.agency-pie-container {
+    height: 100%;
+    padding: 5px;
+    box-sizing: border-box;
+    --chart-font-size: 26px
+}
+
+.agency-text-container {
+    font-size: 14px;
+    margin-top: 35px
+}
+
+
+@media (max-width: 1950px) {
+    .agency-text-container {
+        margin-top: 45px;
+    }
+    .agency-col {
+        height: 62vh;
+    }
+}
+
+@media (max-width: 1700px) {
+    .agency-text-container {
+        margin-top: 35px;
+    }
+    .agency-col {
+        height: 60vh;
+    }
+    .agency-pie-contianer {
+        --chart-font-size: 24px;
+    }
+}
+
+@media (max-width: 1500px) {
+    .agency-col {
+        height: 58vh
+    }
+    .agency-pie-contianer {
+        --chart-font-size: 22px
+    }
+}
+
+@media (max-width: 1300px) {
+    .agency-col {
+        height: 48vh
+    }
+    .agency-container {
+        overflow-y: visible;
+    }
+    .agency-pie-container {
+        --chart-font-size: 18px
+    }
+    .agency-col h3 {
+        font-size: 30px
+    }
+}
+
+@media (max-width: 1000px) {
+    .agency-col {
+        height: 42vh
+    }
+    .agency-pie-container {
+        --chart-font-size: 16px
+    }
+    .agency-text-container {
+        margin-top: 45px;
+    }
+}
+
+@media (max-width: 900px) {
+    .agency-col {
+        height: 36vh
+    }
+    .agency-pie-container {
+        --chart-font-size: 15px
+    }
+    .agency-text-container {
+        margin-top: 70px;
+    }
+}
+
+@media (max-width: 800px) {
+    .agency-col {
+        height: 34vh
+    }
+    .agency-text-container {
+        margin-top: 25px;
+    }
+    .agency-pie-container {
+        --chart-font-size: 14px
+    }
+    .agency-text-container {
+        margin-top: 90px;
+    }
+}
+
+
+@media (max-width: 767px) {
+    .agency-col {
+            height: 30vh
+        }
+    .agency-col h3 {
+        font-size: 26px
+    }
+    .agency-pie-container {
+        --chart-font-size: 12px
+    }
+    .agency-col:nth-of-type(2) {
+        margin-top: 20px;
+    }
+
+}
+
+
+

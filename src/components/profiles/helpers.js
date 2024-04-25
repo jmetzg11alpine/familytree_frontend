@@ -59,7 +59,6 @@ export const handleScale = (value, scale, dispatch, coorRange) => {
 };
 
 export const renderGrid = (coorRange, coorKey, activeSquare) => {
-  console.log('grid rendered');
   const grid = [];
   for (let y = coorRange.minY; y <= coorRange.maxY; y++) {
     const row = [];
