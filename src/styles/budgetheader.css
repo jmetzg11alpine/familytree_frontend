@@ -1,0 +1,15 @@
+.a {
+    display: flex;
+    height: 10vh;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.budget-header-image {
+    width: 20%;
+    height: 80%;
+    cursor: pointer;
+    box-sizing: border-box;
+    transition: border 0.3s ease;
+}
+

@@ -1,0 +1,67 @@
+.budget-custom-dot-marker {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.budget-custom-dot-marker div {
+    background-color: rgba(48, 77, 109, 0.8);
+    border: 1px solid rgb(48, 77, 109);
+    border-radius: 50%;
+    z-index: 1000;
+}
+
+
+.leaflet-popup-close-button {
+    display: none;
+}
+
+.budget-map-title {
+    height: 10vh;
+    width: 100%;
+    color: #333;
+    text-align: center;
+
+}
+
+.foreign-aid-year-selector {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 100%;
+
+    div {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-left: 10px;
+
+        .form-row {
+            flex-grow: 1;
+
+            label {
+                width: 80px;
+                margin-right: 10px;
+            }
+        }
+
+
+    }
+}
+
+
+
+.foreign-aid-total-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.foreign-aid-bar-graph-contianer {
+    height: 100%;
+}
