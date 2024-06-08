@@ -8,8 +8,14 @@
 .budget-header-image {
     width: 20%;
     height: 80%;
+    border-radius: 8px;
     cursor: pointer;
     box-sizing: border-box;
     transition: border 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 1.8rem;
 }
 

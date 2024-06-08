@@ -1,0 +1,28 @@
+.budget-info-container {
+    color: #333;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+
+    h1 {
+        font-size: 24px;
+        color: #2c3e50;
+        margin-bottom: 10px;
+    }
+
+    p {
+        font-size: 16px;
+        line-height: 1.5;
+        margin-bottom: 20px;
+    }
+
+    a {
+        color: #2980b9;
+        text-decoration: none;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+}
+

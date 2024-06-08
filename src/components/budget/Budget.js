@@ -3,10 +3,10 @@ import BudgetHeader from './BudgetHeader';
 import Agency from './agency/Agency';
 import ForeignAid from './foreignaid/ForeignAid';
 import Comparison from './comparison/Comparison';
-import Info from './Info';
+import Info from './info/Info';
 
 const Budget = () => {
-  const [index, setIndex] = useState(1);
+  const [index, setIndex] = useState(2);
   return (
     <div style={{ width: '100vw', height: '100vh' }}>
       <BudgetHeader index={index} setIndex={setIndex} />

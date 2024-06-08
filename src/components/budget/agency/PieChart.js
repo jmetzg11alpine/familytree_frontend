@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Pie } from 'react-chartjs-2';
-import '../chartConfig.js';
+import '../../../chartConfig.js';
 
 const PieChart = ({ data }) => {
   const containerRef = useRef(null);
@@ -39,17 +39,18 @@ const PieChart = ({ data }) => {
       tooltip: {
         enabled: true,
         callbacks: {
-          beforeTitle: function (tooltipItems) {
-            return data[tooltipItems[0].dataIndex].tooltip;
+            title: function (tooltipItems) {
+            const item = data[tooltipItems[0].dataIndex];
+            return `${item.tooltip}`;
           },
           label: function (tooltipItem) {
-            return '$' + tooltipItem.raw.toLocaleString();
+            return `$${tooltipItem.raw.toLocaleString()}`;
           },
         },
       },
 
       datalabels: {
-        color: '#fff',
+        color: 'black',
         textAlign: 'center',
         font: {
           weight: 'bold',

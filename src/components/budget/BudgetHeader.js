@@ -1,11 +1,11 @@
-import '../../styles/budgetheader.css';
+import './budgetheader.css';
 
 const BudgetHeader = ({ index, setIndex }) => {
   const images = [
-    { id: 0, bgColor: 'red' },
-    { id: 1, bgColor: 'blue' },
-    { id: 2, bgColor: 'green' },
-    { id: 3, bgColor: 'yellow' },
+    { id: 0, bgColor: 'rgba(56, 182, 255, 0.6)', title: 'Budget' },
+    { id: 1, bgColor: 'rgba(100, 149, 237, 0.6)', title: 'Foreign Aid' },
+    { id: 2, bgColor: 'rgba(152, 251, 152, 0.6)', title: 'Comparison' },
+    { id: 3, bgColor: 'rgba(240, 128, 128, 0.6)', title: 'Info' },
   ];
   return (
     <div className='a'>
@@ -18,7 +18,7 @@ const BudgetHeader = ({ index, setIndex }) => {
             backgroundColor: img.bgColor,
             border: index === img.id ? '3px solid black' : 'none',
           }}
-        ></div>
+        >{img.title}</div>
       ))}
     </div>
   );

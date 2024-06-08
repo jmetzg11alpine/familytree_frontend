@@ -4,6 +4,8 @@ import {
   Tooltip,
   CategoryScale,
   LinearScale,
+  PointElement,
+  LineElement,
   BarElement,
 } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
@@ -14,6 +16,8 @@ ChartJS.register(
   ChartDataLabels,
   CategoryScale,
   LinearScale,
+  PointElement,
+  LineElement,
   BarElement
 );
 export default ChartJS;

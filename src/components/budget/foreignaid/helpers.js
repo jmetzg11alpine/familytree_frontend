@@ -1,6 +1,6 @@
 import { Row, Col, Form } from 'react-bootstrap';
 import { Bar } from 'react-chartjs-2';
-import '../chartConfig.js';
+import '../../../chartConfig.js';
 import L from 'leaflet';
 
 export const createIcon = (size) => {
@@ -29,6 +29,18 @@ const corner1 = L.latLng(-90, -180);
 const corner2 = L.latLng(90, 180);
 export const bounds = L.latLngBounds(corner1, corner2);
 
+const makeText = (year, country) => {
+  if (year === 'all' && country === 'all') {
+    return 'USA spenindg abroad (10 yrs.)';
+  } else if (year === 'all' && country !== 'all') {
+    return `USA spending in ${country} (10 yrs.)`;
+  } else if (year !== 'all' && country === 'all') {
+    return `USA spending in ${year}`;
+  } else {
+    return `USA spending in ${country} in ${year}`;
+  }
+};
+
 export const Title = ({ data, filters, setFilters }) => {
   const barData = data.bar_data;
   const totalAmount = data.total_amount;
@@ -39,11 +51,7 @@ export const Title = ({ data, filters, setFilters }) => {
         <Selectors countries={countries} filters={filters} setFilters={setFilters} />
       </Col>
       <Col className='foreign-aid-total-container'>
-        <Row>
-          {filters.country === 'all'
-            ? 'USA spending abroad:'
-            : `USA spending in ${filters.country}`}
-        </Row>
+        <Row>{makeText(filters.year, filters.country)}</Row>
         <Row>${totalAmount.toLocaleString('en-US', { maxiumFractionDigits: 0 })}</Row>
       </Col>
       <Col className='foreign-aid-bar-graph-contianer'>
