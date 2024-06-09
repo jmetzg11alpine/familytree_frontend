@@ -2,6 +2,7 @@ import { Row, Col, Form } from 'react-bootstrap';
 import { Bar } from 'react-chartjs-2';
 import '../../../chartConfig.js';
 import L from 'leaflet';
+const url = process.env.REACT_APP_URL;
 
 export const createIcon = (size) => {
   return L.divIcon({
@@ -13,7 +14,7 @@ export const createIcon = (size) => {
 };
 
 export const getData = async (setMapData, setTitleData, filters) => {
-  const response = await fetch(`${process.env.REACT_APP_URL}foreign_aid`, {
+  const response = await fetch(`${url}foreign_aid`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

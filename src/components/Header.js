@@ -11,7 +11,7 @@ import russianFlag from '../styles/images/russia-flag-icon.svg';
 const LoginModal = ({ modalOpen, setModalOpen, dispatch }) => {
   const country = useSelector((state) => state.profileReducer.country);
   const [message, setMessage] = useState(
-    country === 'USA' ? 'Log in to make changes' : 'Войдите, чтобы внести изменения'
+    country === 'US' ? 'Log in to make changes' : 'Войдите, чтобы внести изменения'
   );
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
