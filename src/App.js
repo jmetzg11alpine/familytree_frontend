@@ -9,6 +9,7 @@ const Background = lazy(() => import('./components/profiles/Background'));
 const FamilyMap = lazy(() => import('./components/map/FamilyMap'));
 const Info = lazy(() => import('./components/info/Info'));
 const Budget = lazy(() => import('./components/budget/Budget'));
+const Health = lazy(() => import('./components/health/Health'));
 
 function AppWrapper() {
   return (
@@ -34,13 +35,14 @@ function App() {
 
   return (
     <div>
-      {location.pathname !== '/budget' && <Header />}
+      {location.pathname !== '/budget' && location.pathname !== '/health' && <Header />}
       <Suspense fallback={<div>Loading...</div>}>
         <Routes>
           <Route path='/' element={<Background />} />
           <Route path='/map' element={<FamilyMap />} />
           <Route path='/info' element={<Info />} />
           <Route path='/budget' element={<Budget />} />
+          <Route path='/health' element={<Health />} />
         </Routes>
       </Suspense>
     </div>

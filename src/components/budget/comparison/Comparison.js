@@ -67,13 +67,15 @@ const Comparison = () => {
       tooltip: {
         callbacks: {
           label: function (tooltipItem) {
-            console.log(tooltipItem);
             return (
               ' ' + tooltipItem.dataset.label + ' $' + tooltipItem.raw.toLocaleString()
             );
           },
         },
       },
+    },
+    datalabels: {
+      display: false,
     },
     responsive: true,
     maintainAspectRatio: false,

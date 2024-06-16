@@ -6,7 +6,7 @@ import Comparison from './comparison/Comparison';
 import Info from './info/Info';
 
 const Budget = () => {
-  const [index, setIndex] = useState(2);
+  const [index, setIndex] = useState(0);
   return (
     <div style={{ width: '100vw', height: '100vh' }}>
       <BudgetHeader index={index} setIndex={setIndex} />

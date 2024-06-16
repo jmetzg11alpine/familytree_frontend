@@ -7,7 +7,9 @@ import {
   PointElement,
   LineElement,
   BarElement,
+  TimeScale,
 } from 'chart.js';
+import 'chartjs-adapter-date-fns';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 ChartJS.register(
@@ -18,6 +20,7 @@ ChartJS.register(
   LinearScale,
   PointElement,
   LineElement,
-  BarElement
+  BarElement,
+  TimeScale
 );
 export default ChartJS;
