@@ -9,16 +9,6 @@ const Comparison = () => {
   const [agencies, setAgencies] = useState([]);
   const [xLabels, setXLabels] = useState([]);
   const [lineData, setLineData] = useState({});
-  const [activeLines, setActiveLines] = useState({});
-
-  useEffect(() => {
-    setActiveLines(() => {
-      return agencies.reduce((acc, agency, index) => {
-        acc[agency] = index === 0 || index === 6;
-        return acc;
-      }, {});
-    });
-  }, [agencies]);
 
   useEffect(() => {
     getData(setAgencies, setXLabels, setLineData);
@@ -36,7 +26,6 @@ const Comparison = () => {
         pointBorderColor: color,
         pointBackgroundColor: color,
         borderWidth: 3,
-        hidden: !activeLines[agency],
       };
     }),
   };
@@ -58,10 +47,10 @@ const Comparison = () => {
     },
     plugins: {
       legend: {
-        labels: {
-          filter: function (item, chart) {
-            return !chart.getDatasetMeta(item.datasetIndex).hidden;
-          },
+        labels: { padding: 20, font: { size: 18 } },
+        onHover: function (event, legendItem) {
+          const chart = this.chart;
+          chart.canvas.style.cursor = 'pointer';
         },
       },
       tooltip: {
@@ -72,6 +61,8 @@ const Comparison = () => {
             );
           },
         },
+        titleFont: { size: 16 },
+        bodyFont: { size: 14 },
       },
     },
     datalabels: {
@@ -83,36 +74,6 @@ const Comparison = () => {
 
   return (
     <Container className='p-4 comparison-container'>
-      <Row className='mb-3'>
-        {agencies.slice(0, 4).map((agency, index) => {
-          const buttonStyle = getButtonStyles(activeLines, agency, index);
-          return (
-            <Col key={agency}>
-              <Button
-                style={buttonStyle}
-                onClick={() => toggleLine(agency, setActiveLines)}
-              >
-                {agency}
-              </Button>
-            </Col>
-          );
-        })}
-      </Row>
-      <Row className='mb-3'>
-        {agencies.slice(4).map((agency, index) => {
-          const buttonStyle = getButtonStyles(activeLines, agency, index + 4);
-          return (
-            <Col kye={agency} sm={3}>
-              <Button
-                style={buttonStyle}
-                onClick={() => toggleLine(agency, setActiveLines)}
-              >
-                {agency}
-              </Button>
-            </Col>
-          );
-        })}
-      </Row>
       <Row>
         <Line data={data} options={options} />
       </Row>

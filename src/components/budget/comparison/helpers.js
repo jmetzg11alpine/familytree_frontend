@@ -6,6 +6,7 @@ export const getData = async (setAgencies, setXLabels, setLineData) => {
     },
   });
   const data = await response.json();
+  console.log(data.line_data);
   setAgencies(data.agencies);
   setXLabels(data.x_labels);
   setLineData(data.line_data);
