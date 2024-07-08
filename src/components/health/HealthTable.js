@@ -13,7 +13,8 @@ const HealthTable = () => {
   const dispatch = useDispatch();
   const healthData = useSelector((state) => state.healthReducer.healthData);
   const columnSelected = useSelector((state) => state.healthReducer.columnSelected);
-  const startDate = useSelector((state) => state.healthReducer.startDate);
+  const endDate = useSelector((state) => state.healthReducer.endDate);
+  const timePeriod = useSelector((state) => state.healthReducer.timePeriod);
 
   const handleClick = (column) => {
     dispatch(setColumnSelected(column));
@@ -26,8 +27,8 @@ const HealthTable = () => {
   const clickColumn = { backgroundColor: '#d3d3d3' };
 
   useEffect(() => {
-    getChartData(dispatch, columnSelected, startDate);
-  }, [columnSelected, dispatch, startDate]);
+    getChartData(dispatch, columnSelected, endDate, timePeriod);
+  }, [columnSelected, dispatch, endDate, timePeriod]);
 
   return (
     <div className='health-table-container'>

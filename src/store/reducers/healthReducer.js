@@ -32,7 +32,8 @@ const healthSlice = createSlice({
     specificEntry: {},
     columnSelected: 'pressure',
     chartData: [],
-    startDate: defaultStartDate,
+    endDate: '2024-07-07',
+    timePeriod: 'week',
   },
   reducers: {
     setHealthData: (state, action) => {
@@ -56,8 +57,11 @@ const healthSlice = createSlice({
     setChartData: (state, action) => {
       state.chartData = action.payload;
     },
-    setStartDate: (state, action) => {
-      state.startDate = action.payload;
+    setEndDate: (state, action) => {
+      state.endDate = action.payload;
+    },
+    setTimePeriod: (state, action) => {
+      state.timePeriod = action.payload;
     },
   },
 });
@@ -70,7 +74,8 @@ export const {
   setSpecificEntry,
   setColumnSelected,
   setChartData,
-  setStartDate,
+  setEndDate,
+  setTimePeriod,
 } = healthSlice.actions;
 
 export default healthSlice.reducer;

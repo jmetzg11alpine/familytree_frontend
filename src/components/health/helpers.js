@@ -7,24 +7,37 @@ import {
   setSubmitModule,
   setDeleteModule,
   setChartData,
+  setEndDate,
 } from '../../store/reducers/healthReducer';
 import { defaultNewEntry } from '../../store/reducers/healthReducer';
 const url = process.env.REACT_APP_URL;
 
-export const getData = async (dispatch, startDate) => {
+export const getMaxDate = async (dispatch, setMaxDate) => {
+  const response = await fetch(`${url}get_health_max_date`, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+  });
+  const resp = await response.json();
+  const date = resp.split('T')[0];
+  dispatch(setEndDate(date));
+  setMaxDate(date);
+};
+
+export const getData = async (dispatch, endDate, timePeriod) => {
   const response = await fetch(`${url}get_health`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(startDate),
+    body: JSON.stringify({ endDate, timePeriod }),
   });
   const resp = await response.json();
   dispatch(setHealthData(resp.data));
 };
 
-export const getChartData = async (dispatch, column, startDate) => {
+export const getChartData = async (dispatch, column, endDate, timePeriod) => {
+  console.log(endDate);
   const response = await fetch(`${url}get_health_chart_data`, {
     method: 'POST',
-    body: JSON.stringify({ column, startDate }),
+    body: JSON.stringify({ column, endDate, timePeriod }),
   });
   const data = await response.json();
   dispatch(setChartData(data.data));

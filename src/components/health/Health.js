@@ -7,11 +7,13 @@ import './styles.css';
 
 const Health = () => {
   const dispatch = useDispatch();
-  const startDate = useSelector((state) => state.healthReducer.startDate);
+  const endDate = useSelector((state) => state.healthReducer.endDate);
+  const timePeriod = useSelector((state) => state.healthReducer.timePeriod);
+  console.log(endDate);
 
   useEffect(() => {
-    getData(dispatch, startDate);
-  }, [dispatch, startDate]);
+    getData(dispatch, endDate, timePeriod);
+  }, [dispatch, timePeriod, endDate]);
 
   return (
     <div className='health-container'>

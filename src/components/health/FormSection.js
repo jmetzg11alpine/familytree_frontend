@@ -20,13 +20,9 @@ const FormSection = () => {
     .filter((field, index) => index !== 5)
     .every((field) => field);
   return (
-    <div className='px-2'>
-      <Row>
-        <h3 className='mt-2'>Submit New Entry</h3>
-      </Row>
-      <Row className='mb-2'>
+    <div className='px-2 mt-2'>
+      <Row className='mb-3'>
         <Col sm={12} md={3}>
-          <Form.Label>Date and Time</Form.Label>
           <Form.Control
             type='datetime-local'
             name='timestamp'
@@ -35,28 +31,28 @@ const FormSection = () => {
           />
         </Col>
         <Col sm={12} md={3}>
-          <Form.Label>Pressure</Form.Label>
           <Form.Control
             type='text'
             name='pressure'
+            placeholder='pressure'
             value={newEntry.pressure}
             onChange={handleChange}
           />
         </Col>
         <Col sm={12} md={3}>
-          <Form.Label>Weight</Form.Label>
           <Form.Control
             type='text'
             name='weight'
+            placeholder='weight'
             value={newEntry.weight}
             onChange={handleChange}
           />
         </Col>
         <Col sm={12} md={3}>
-          <Form.Label>Heart Beats</Form.Label>
           <Form.Control
             type='text'
             name='heartBeat'
+            placeholder='heart beat'
             value={newEntry.heartBeat}
             onChange={handleChange}
           />
@@ -64,19 +60,19 @@ const FormSection = () => {
       </Row>
       <Row>
         <Col sm={12} md={3}>
-          <Form.Label>Coffee</Form.Label>
           <Form.Control
             type='number'
             name='coffee'
+            placeholder='coffee'
             value={newEntry.coffee}
             onChange={handleChange}
           />
         </Col>
         <Col sm={12} md={6}>
-          <Form.Label>Notes</Form.Label>
           <Form.Control
             type='text'
             name='notes'
+            placeholder='notes'
             value={newEntry.notes}
             onChange={handleChange}
           />
