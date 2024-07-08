@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Button, Container, Row, Col } from 'react-bootstrap';
+import { Container, Row } from 'react-bootstrap';
 import { Line } from 'react-chartjs-2';
-import { getData, colors, toggleLine, getButtonStyles } from './helpers';
+import { getData, colors } from './helpers';
 import '../../../chartConfig.js';
 import './styles.css';
 

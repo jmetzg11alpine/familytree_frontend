@@ -10,6 +10,7 @@ const InfoBox = () => {
           <a
             href='https://github.com/jmetzg11alpine/familytree_backend/blob/main/src/initialize_database/logistics.py'
             target='_blank'
+            rel='noreferrer'
           >
             python script
           </a>

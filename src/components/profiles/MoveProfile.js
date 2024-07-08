@@ -22,7 +22,7 @@ const MoveProfile = () => {
 
   useEffect(() => {
     dispatch(setActiveSquare(profileData.coor));
-  }, [profileData]);
+  }, [dispatch, profileData]);
 
   const handleClose = () => {
     dispatch(setActiveSquare(false));

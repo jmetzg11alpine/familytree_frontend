@@ -22,20 +22,3 @@ export const colors = [
   'rgba(250, 128, 114, 1)',
   'rgba(255, 160, 122, 1)', // LightSalmon
 ];
-
-export const toggleLine = (agency, setActiveLines) => {
-  setActiveLines((prev) => ({
-    ...prev,
-    [agency]: !prev[agency],
-  }));
-};
-
-export const getButtonStyles = (activeLines, agency, index) => {
-  const isActive = activeLines[agency];
-  const color = colors[index];
-  return {
-    backgroundColor: isActive ? color : 'transparent',
-    borderColor: color,
-    color: isActive ? 'white' : 'black',
-  };
-};

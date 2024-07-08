@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Filters from './Filters';
 import InfoBox from './InfoBox';
@@ -22,7 +22,7 @@ const Logistics = () => {
 
   useEffect(() => {
     getData(dispatch, selectedFilters, filtersRetrieved);
-  }, [selectedFilters]);
+  }, [dispatch, selectedFilters, filtersRetrieved]);
   return (
     <div className='logistics-container'>
       <Filters />

@@ -1,4 +1,4 @@
-import { Table, Container } from 'react-bootstrap';
+import { Table } from 'react-bootstrap';
 
 const RoutesTable = ({ data }) => {
   return (

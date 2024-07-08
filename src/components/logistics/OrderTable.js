@@ -2,13 +2,12 @@ import { useState, useEffect } from 'react';
 import { Table } from 'react-bootstrap';
 
 const OrderTable = ({ data }) => {
-  console.log(data.length);
   const [sortedData, setSortedData] = useState(data);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
 
   useEffect(() => {
     setSortedData(data);
-  }, [data.length]);
+  }, [data]);
 
   const onSort = (key) => {
     let direction = 'asc';

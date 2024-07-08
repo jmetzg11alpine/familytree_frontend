@@ -1,15 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const getDates = () => {
-  const today = new Date().toISOString().split('T')[0];
-  const sixMonthsAgo = new Date();
-  sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
-  const formattedSixMonthsAgo = sixMonthsAgo.toISOString().split('T')[0];
-  return { end: today, start: formattedSixMonthsAgo };
-};
+const getDates = () => new Date().toISOString().split('T')[0];
 
 const defaultFilters = () => {
-  const { end, start } = getDates();
+  const end = getDates();
   return {
     customer: ['all'],
     sales: ['all'],
@@ -21,7 +15,7 @@ const defaultFilters = () => {
 };
 
 const defaultSelectedFilters = () => {
-  const { end, start } = getDates();
+  const end = getDates();
   return {
     customer: 'all',
     sales: 'all',
@@ -42,20 +36,6 @@ const chartJSLinear = () => {
       gackgroundCOlor: 'red',
     },
   ];
-};
-
-const chartJSPie = () => {
-  return {
-    labels: ['Red', 'Blue', 'Yellow'],
-    datasets: [
-      {
-        label: 'Dataset 1',
-        data: [300, 50, 100],
-        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
-        hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
-      },
-    ],
-  };
 };
 
 const defaultData = () => ({

@@ -31,7 +31,7 @@ const Background = () => {
 
   useEffect(() => {
     handleSetCenter(scale, coorRange, containerRef);
-  }, [coorRange]);
+  }, [scale, coorRange]);
 
   useEffect(() => {
     scrollScreenWithResize(dimensions, containerRef);

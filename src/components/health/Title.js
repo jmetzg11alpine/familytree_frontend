@@ -18,7 +18,7 @@ const Title = () => {
 
   useEffect(() => {
     getMaxDate(dispatch, setMaxDate);
-  }, []);
+  }, [dispatch]);
 
   const updateColumnSelected = (e) => {
     dispatch(setColumnSelected(e.target.value));

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Button } from 'react-bootstrap';
 import { Line } from 'react-chartjs-2';
 import '../../chartConfig.js';
@@ -11,7 +11,7 @@ const LineGraph = () => {
   const orderCount = useSelector((state) => state.logisticsReducer.data.order_count);
   const unitCount = useSelector((state) => state.logisticsReducer.data.unit_count);
   const margin = useSelector((state) => state.logisticsReducer.data.margin);
-  let label = grapherHelper(button);
+  const labelRef = useRef(grapherHelper(button));
   useEffect(() => {
     if (button === 'orders') {
       setData(orderCount);
@@ -20,13 +20,13 @@ const LineGraph = () => {
     } else {
       setData(margin);
     }
-    label = grapherHelper(button);
+    labelRef.current = grapherHelper(button);
   }, [button, orderCount, unitCount, margin]);
 
   const chartData = {
     datasets: [
       {
-        label: label,
+        label: labelRef.current,
         data: data,
         fill: false,
         borderColor: 'rgba(75,192,192,1)',
@@ -57,7 +57,7 @@ const LineGraph = () => {
       y: {
         title: {
           display: true,
-          text: label,
+          text: labelRef.current,
         },
         ticks: {
           callback: function (value) {
@@ -74,7 +74,7 @@ const LineGraph = () => {
   };
   return (
     <div className='graph-item line-container'>
-      <div className='title'>{label}</div>
+      <div className='title'>{labelRef.current}</div>
       <div className='graph-container'>
         <Line data={chartData} options={options} />
       </div>
