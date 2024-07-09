@@ -34,7 +34,7 @@ const ForeignAid = () => {
           center={[0, 0]}
           zoom={mapZoom}
           scrollWheelZoom={true}
-          style={{ height: '87vh', width: '100%' }}
+          style={{ height: '75vh', width: '100%' }}
           maxBounds={bounds}
         >
           <TileLayer

@@ -72,8 +72,7 @@ const Selectors = ({ countries, filters, setFilters }) => {
       <div>
         <Form.Group className='form-row'>
           <Form.Label>Country</Form.Label>
-          <Form.Control
-            as='select'
+          <Form.Select
             value={filters.country}
             onChange={(e) => setFilters((prev) => ({ ...prev, country: e.target.value }))}
           >
@@ -83,14 +82,13 @@ const Selectors = ({ countries, filters, setFilters }) => {
                 {country}
               </option>
             ))}
-          </Form.Control>
+          </Form.Select>
         </Form.Group>
       </div>
       <div>
         <Form.Group className='form-row'>
           <Form.Label>Years</Form.Label>
-          <Form.Control
-            as='select'
+          <Form.Select
             value={filters.year}
             onChange={(e) => setFilters((prev) => ({ ...prev, year: e.target.value }))}
           >
@@ -99,7 +97,7 @@ const Selectors = ({ countries, filters, setFilters }) => {
                 {year}
               </option>
             ))}
-          </Form.Control>
+          </Form.Select>
         </Form.Group>
       </div>
     </div>

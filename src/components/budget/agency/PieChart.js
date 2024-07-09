@@ -34,12 +34,12 @@ const PieChart = ({ data }) => {
   const options = {
     plugins: {
       legend: {
-        display: false,
+        display: true,
       },
       tooltip: {
         enabled: true,
         callbacks: {
-            title: function (tooltipItems) {
+          title: function (tooltipItems) {
             const item = data[tooltipItems[0].dataIndex];
             return `${item.tooltip}`;
           },
@@ -50,15 +50,7 @@ const PieChart = ({ data }) => {
       },
 
       datalabels: {
-        color: 'black',
-        textAlign: 'center',
-        font: {
-          weight: 'bold',
-          size: fontSize,
-        },
-        formatter: (value, context) => {
-          return context.chart.data.labels[context.dataIndex];
-        },
+        display: false,
       },
     },
     maintainAspectRatio: false,

@@ -43,7 +43,6 @@
         .health-chart-container {
             height: 61%;
             width: 100%;
-            padding: 8px;
             background-color: #ffffff;
 
             canvas {
@@ -57,6 +56,9 @@
             width: 100%;
             background-color: #20c997;
             padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
     }
 

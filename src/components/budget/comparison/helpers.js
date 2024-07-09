@@ -13,12 +13,12 @@ export const getData = async (setAgencies, setXLabels, setLineData) => {
 };
 
 export const colors = [
-  'rgba(135, 206, 250, 1)', // LightSkyBlue
-  'rgba(255, 192, 203, 1)', // Pink
-  'rgba(221, 160, 221, 1)', // Plum
-  'rgba(255, 182, 193, 1)', // LightPink
-  'rgba(255, 127, 80, 1)',
-  'rgba(173, 216, 230, 1)', // LightBlue
-  'rgba(250, 128, 114, 1)',
-  'rgba(255, 160, 122, 1)', // LightSalmon
+  'rgba(0, 128, 128, 1)',
+  'rgba(255, 99, 71, 1)',
+  'rgba(124, 252, 0, 1)',
+  'rgba(70, 130, 180, 1)',
+  'rgba(0, 191, 255, 1)',
+  'rgba(155, 69, 0, 1)',
+  'rgba(138, 43, 226, 1)',
+  'rgba(60, 179, 113, 1)',
 ];

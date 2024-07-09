@@ -20,8 +20,8 @@ const FormSection = () => {
     .filter((field, index) => index !== 5)
     .every((field) => field);
   return (
-    <div className='px-2 mt-2'>
-      <Row className='mb-3'>
+    <div>
+      <Row className='mb-2'>
         <Col sm={12} md={3}>
           <Form.Control
             type='datetime-local'

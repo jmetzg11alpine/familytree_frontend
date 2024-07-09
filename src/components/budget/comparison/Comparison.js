@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { Container, Row } from 'react-bootstrap';
 import { Line } from 'react-chartjs-2';
 import { getData, colors } from './helpers';
 import '../../../chartConfig.js';
@@ -73,11 +72,9 @@ const Comparison = () => {
   };
 
   return (
-    <Container className='p-4 comparison-container'>
-      <Row>
-        <Line data={data} options={options} />
-      </Row>
-    </Container>
+    <div className='comparison-container'>
+      <Line data={data} options={options} />
+    </div>
   );
 };
 export default Comparison;
